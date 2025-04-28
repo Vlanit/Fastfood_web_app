@@ -1,0 +1,23 @@
+{
+    "background_color": "white",
+    "secondary_background_color": "white",
+    "card_background_color": "white",
+    "discount_background_color": "#5FB233",
+    "text_color": "black",
+    "secondary_text_color": "white",
+    "description_text_color": "#575656",
+    "url_color": "",
+    "h1_color": "black",
+    "h2_color": "black",
+    "h3_color": "black",
+    "button_color": "#EEB10A",
+    "button_text_color": "white",
+    "button_color_hover": "#EE840A",
+    "button_text_color_hover": "white",
+    "a_color": "black",
+    "a_color_hover": "#EE840A",
+    "a_color_active": "#962E2A",
+    "select_border_color": "black",
+    "input_border_color": "black",
+    "layout_num": 2
+}
