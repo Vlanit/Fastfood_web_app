@@ -14,6 +14,7 @@ import MainPage from './components/page_components/MainPage.js';
 import MenuPage from './components/page_components/MenuPage.js';
 import ActionPage from './components/page_components/ActionPage.js';
 import CashierPage from './components/page_components/CashierPage.js';
+import PaymentSuccess from './components/base_components/PaymentSuccess.js';
 
 import { interface_styles, interface_colors } from './styles/ColorData.js';
 import AdminPanel from './components/page_components/AdminPanel.js';
@@ -51,8 +52,8 @@ const App = observer((props) => {
           <Route path='/' element={<MainPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/actions' element={<ActionPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/menu' element={<MenuPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
-          <Route path='/success' action={() => console.log('redirect')} element={<Navigate replace to="/"/>}></Route>
-          <Route path='/error' element={<MainPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
+          <Route path='/success' element={<PaymentSuccess/>}></Route>
+          <Route path='/error' element={<Navigate replace to="/"/>}></Route>
           {user_data_store.cashier ? 
             <Route path='/cashier' element={<CashierPage/>}></Route> 
           :null}

@@ -3,6 +3,7 @@ import instance from "../api/server_api";
 import { io } from 'socket.io-client';
 
 class ShoppingCartState {
+    loaded = false;
     _name = "";
     _surname = "";
     _phone_number = "";
@@ -120,7 +121,7 @@ class ShoppingCartState {
 
     getDataFromSessionStorage() {
         const storage_data = JSON.parse(sessionStorage.getItem("shoppingCartState"));
-        if (storage_data) {
+        if (!this.loaded && storage_data) {
             this._name = storage_data.name;
             this._surname = storage_data.surname;
             this._phone_number = storage_data.phone_number;
@@ -136,6 +137,7 @@ class ShoppingCartState {
             this._iscooked = storage_data.iscooked;
             this._isfinished = storage_data.isfinished;
             this.current_order_id = storage_data.id;
+            this.loaded = true;
         }
     }
 
@@ -248,15 +250,15 @@ class ShoppingCartState {
             products: products_array,
             outlet_id: this._outlet
         };
-        console.log()
-        /*this._ordered = true;
+        this._ordered = true;
+        console.log(order_object);
         this.socket = io('http://localhost:3000');
         this.socket.emit('new_order_inserted', order_object);
         this.socket.on('new_order_state', (order_status) => {
             this._isstarted = order_status.isstarted;
             this._iscooked = order_status.iscooked;
             this._isfinished = order_status.isfinished;
-        });*/
+        });
         /*await instance.post('/save_order_to_store', {order_id: Date.now().toString(), order_data: order_object}).then((response) => {
             runInAction(() => {
                 this.current_order_id = response.data.order_id;

@@ -107,6 +107,7 @@ class UserDataState {
                         this.socket.on('new_order', (order_data) => {
                             runInAction(() => {
                                 this._orders.push(order_data);
+                                console.log(order_data);
                             });
                         })
                         this.socket.emit('join_room', this._outlet);

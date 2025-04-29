@@ -411,6 +411,7 @@ socket_server.on('connection', (socket) => {
 
     socket.on('join_room', (room) => {
         socket.join(`outlet-${room}`);
+        console.log(`Socket ${socket} joined room outlet-${room}`);
     });
 
     socket.on('new_order_inserted', async (order_data) => {
@@ -446,13 +447,17 @@ socket_server.on('connection', (socket) => {
         }); 
 
         const order_with_client = {...order_data, order_id: last_order_id, client: socket.id};
-        socket_server.to(`outlet-${order_data.outlet}`).emit('new_order', order_with_client);
+        console.log(socket_server, order_with_client);
+        socket_server.to(`outlet-${order_data.outlet_id}`).emit('new_order', order_with_client);
     });
 
     socket.on('order_status_changed', async (order_status) => {
         await client_pool.query(`update customer_order
             set isstarted=$1, iscooked=$2, isfinished=$3 where order_id=$4;`,
-            [order_data.isstarted, order_data.iscooked, order_data.isfinished, order_data.order_id]);
+            [order_status.isstarted ? 1 : 0, 
+            order_status.iscooked ? 1 : 0, 
+            order_status.isfinished ? 1 : 0, 
+            order_status.order_id]);
 
         socket_server.in(order_status.client).emit('new_order_state', order_status);
     })

@@ -109,7 +109,7 @@ const ShoppingCart = observer((props) => {
                         <p>{shopping_cart_store.delivery == "1" ? "Самовывоз" : "Доставка"}</p>:
                         <select style={{...interface_styles.select, borderColor: interface_colors.select_border_color}}     
                             id="delivery" name="delivery" value={shopping_cart_store.delivery}
-                                onChange={(event) => shopping_cart_store.delivery = event.target.value==1?false:true}>
+                                onChange={(event) => shopping_cart_store.delivery = event.target.value=="1"?false:true}>
                                 <option value="1">Самовывоз</option>
                                 <option value="2">Доставка</option>
                             </select>
