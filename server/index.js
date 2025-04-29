@@ -23,7 +23,10 @@ const session_app = session({
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:3001'],
+    credentials: true
+}));
 app.use('/api/images', express.static('files/images'));
 app.use(session_app);
 
@@ -37,6 +40,8 @@ const storage = multer.diskStorage({
         cb(null, Date.now().toString() + file.fieldname + path.extname(file.originalname));
     }
 })
+
+let order_store = new Map();
 
 const file_uploader = multer({storage:storage});
 
@@ -172,6 +177,20 @@ app.get('/api/get_interface_data', (req, res) => {
     const design_layout = fs.readFileSync(layout_file_path);
     const design_layout_json = JSON.parse(design_layout);
     res.json({colors: interface_file_json, styles: design_layout_json});
+});
+
+app.get('/api/get_order_from_store', (req, res) => {
+    const id = req.query.order_id;
+    res.json({order: order_store.get(id)});
+});
+
+app.post('/api/save_order_to_store', (req, res) => {
+    const data = req.body;
+    if (!order_store.has(data.order_id))
+    {
+        order_store.set(data.order_id, data.order_data);
+    }
+    res.json({order_id: data.order_id});
 });
 
 app.post('/api/add_topping', file_uploader.single('image'), async (req, res) => {
@@ -390,28 +409,34 @@ socket_server.on('connection', (socket) => {
         await client_pool.query(`insert into customer_order(
 	        name, surname, devivery, delivery_address, iscooked, isfinished, order_datetime, account_id, outlet_id, isstarted)
 	        values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`,
-            [order_data.name, order_data.surname, order_data.delivery, order_data.delivery_address, order_data.iscooked, 
-                order_data.isfinished, order_data.order_datetime, order_data.outlet_id, order_data.isstarted]);
+                [order_data.name, order_data.surname, 
+                    order_data.delivery ? 1 : 0, 
+                    order_data.delivery_address, 
+                    order_data.iscooked ? 1 : 0, 
+                    order_data.isfinished ? 1 : 0, 
+                    order_data.order_datetime, 
+                    order_data.account_id, 
+                    order_data.outlet_id, 
+                    order_data.isstarted ? 1 : 0]);
             
-        let last_order_id = (await client_pool.query(`select last_value from customer_order_order_id_seq`)).rows.last_value;
+        let last_value = await client_pool.query(`select last_value from customer_order_order_id_seq`);
+        let last_order_id = last_value.rows[0].last_value;
 
-        for (let i = 0; i < order_data.dishes.length; i++) {
-            await client_pool.query(`insert into dish_order(
+        await order_data.dishes?.forEach(async (element) => {
+                await client_pool.query(`insert into dish_order(
                     dish_id, order_id, size, count, current_price)
-                    values ($1, $2, $3, $4, $5);`,
-                [order_data.dishes[i].dish_id, last_order_id, order_data.dishes[i].size, order_data.dishes[i].count, 
-                order_data.dishes[i].current_price]);
-            
-        }
+                    values ($1, $2, $3, $4, $5);`, 
+                    [element.dish_id, last_order_id, element.size, element.count, element.current_price]);
+        });
 
-        for (let i = 0; i < order_data.products.length; i++) {
+        await order_data.products?.forEach(async (element) => {
             await client_pool.query(`insert into product_order(
                     product_id, order_id, count)
                     values ($1, $2, $3);`,
-                [order_data.products[i].product_id, last_order_id, order_data.products[i].count]);
-        }   
+                [element.product_id, last_order_id, element.count]);
+        }); 
 
-        const order_with_client = {...order_data, client: socket.id};
+        const order_with_client = {...order_data, order_id: last_order_id, client: socket.id};
         socket_server.to(`outlet-${order_data.outlet}`).emit('new_order', order_with_client);
     });
 

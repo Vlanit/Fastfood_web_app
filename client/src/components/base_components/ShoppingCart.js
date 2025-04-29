@@ -83,19 +83,22 @@ const ShoppingCart = observer((props) => {
                     {shopping_cart_store.isordered ? 
                         <p>{shopping_cart_store.name}</p>:
                         <input style={{...interface_styles.input, borderColor: interface_colors.input_border_color}} 
-                            type="text" id="name" name="name" onChange={(event) => shopping_cart_store.name = event.target.value}/>
+                            type="text" id="name" name="name" value={shopping_cart_store.name} 
+                            onChange={(event) => shopping_cart_store.name = event.target.value}/>
                             }
                     <label style={interface_styles.p}>Фамилия: </label>
                     {shopping_cart_store.isordered ? 
                         <p>{shopping_cart_store.surname}</p>:
                         <input style={{...interface_styles.input, borderColor: interface_colors.input_border_color}} 
-                            type="text" id="surname" name="surname" onChange={(event) => shopping_cart_store.surname = event.target.value}/>
+                            type="text" id="surname" name="surname" value={shopping_cart_store.surname} 
+                            onChange={(event) => shopping_cart_store.surname = event.target.value}/>
                             }
                     <label style={interface_styles.p}>Город: </label>
                     {shopping_cart_store.isordered ? 
                         <p>{shopping_cart_store.town}</p>:
                         <select style={{...interface_styles.select, borderColor: interface_colors.select_border_color}} 
-                            id="town" name="town" onChange={(event) => shopping_cart_store.town = event.target.value}>
+                            id="town" name="town" value={shopping_cart_store.town}
+                            onChange={(event) => shopping_cart_store.town = event.target.value}>
                                 {franchise_data_store.towns.map(item => (
                                     <option value={item.town}>{item.town}</option>
                                 ))}
@@ -105,7 +108,7 @@ const ShoppingCart = observer((props) => {
                     {shopping_cart_store.isordered ? 
                         <p>{shopping_cart_store.delivery == "1" ? "Самовывоз" : "Доставка"}</p>:
                         <select style={{...interface_styles.select, borderColor: interface_colors.select_border_color}}     
-                            id="delivery" name="delivery" 
+                            id="delivery" name="delivery" value={shopping_cart_store.delivery}
                                 onChange={(event) => shopping_cart_store.delivery = event.target.value==1?false:true}>
                                 <option value="1">Самовывоз</option>
                                 <option value="2">Доставка</option>
@@ -119,7 +122,7 @@ const ShoppingCart = observer((props) => {
                         (shopping_cart_store.isordered ? 
                             <p>{shopping_cart_store.delivery_address}</p>:
                             <input style={{...interface_styles.input, borderColor: interface_colors.input_border_color}} 
-                                type="text" id="address" name="address" 
+                                type="text" id="address" name="address" value={shopping_cart_store.delivery_address}
                                 onChange={(event) => shopping_cart_store.delivery_address = event.target.value}/>
                             )
                         :null
@@ -128,7 +131,8 @@ const ShoppingCart = observer((props) => {
                     {shopping_cart_store.isordered ? 
                         <p>{shopping_cart_store.outlet}</p>:
                         <select style={{...interface_styles.select, borderColor: interface_colors.select_border_color}} 
-                            id="outlet" name="outlet" onChange={(event) => shopping_cart_store.outlet = event.target.value}>
+                            id="outlet" name="outlet" value={shopping_cart_store.outlet}
+                            onChange={(event) => shopping_cart_store.outlet = event.target.value}>
                             {
                                 franchise_data_store.outlets.map(item =>
                                     {
@@ -149,7 +153,18 @@ const ShoppingCart = observer((props) => {
                     <div style={interface_styles.flex_between}>
                         <Button text={"Оплатить баллами"} main_style={buttonStyle} hover_style={buttonHoverStyle}/>
                         <p style={{...interface_styles.p, ...interface_styles.bold}}>{`Цена: ${shopping_cart_store.price} ₽`}</p>
-                        <Button text={"Перейти к оплате"} main_style={buttonStyle} hover_style={buttonHoverStyle} onClick={() => insertOrder()}/>
+                        <form action="https://yookassa.ru/integration/simplepay/payment" method="post" accept-charset="utf-8">
+                            <input disabled="" type="hidden" name="paymentSubjectType" value="service"/>
+                            <input disabled="" type="hidden" name="paymentMethodType" value="full_prepayment"/>
+                            <input disabled="" type="hidden" name="tax" value="1" />
+                            <input disabled="" type="hidden" name="sum" value={shopping_cart_store.price}/>
+                            <input disabled="" type="hidden" name="price" value={shopping_cart_store.price}/>
+                            <input disabled="" type="hidden" name="customerNumber" value={`(${shopping_cart_store.surname} ${shopping_cart_store.name})`}/>
+                            <input disabled="" type="hidden" name="shopId" value={"1078773"}/>
+                            <input disabled="" type="hidden" name="shopSuccessURL" value={"http://localhost:3001/succeeded"} />
+                            <input disabled="" type="hidden" name="shopFailURL" value={"http://localhost:3001/error"}/>
+                            <Button text={"Перейти к оплате"} main_style={buttonStyle} hover_style={buttonHoverStyle}/>
+                        </form>
                     </div>
                     }
                 <LinkImage image_name={"ExitButton.svg"} main_style={interface_styles.exit_button} 

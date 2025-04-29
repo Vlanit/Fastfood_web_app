@@ -40,12 +40,14 @@ const CashierPage = observer((props) => {
             <div style={interface_styles.order_contents}>
                 {orders.map((item, index) => {
                     return <CashierOrderCard first_action={() => user_data_store.changeOrderStatus(index)} second_action={() => {setOrder(index)}}
-                        id={37} name={item.name} surname={item.surname} delivery={item.delivery} address={item.delivery_address}
+                        id={item.order_id} name={item.name} surname={item.surname} delivery={item.delivery} address={item.delivery_address}
                         datetime={item.order_datetime} first_button_name={getStateName(orders[index])} second_button_name={"Просмотр"}/>
                 })}
             </div>
             <div style={{...interface_styles.order_contents, backgroundColor: interface_colors.secondary_background_color}}>
-                <h1>Заказ №37</h1>
+                {current_order != -1 ? 
+                    <h1>{`Заказ №${orders[current_order].order_id}`}</h1> : 
+                null}
                 <div style={interface_styles.cart_items_table}>
                     {orders[current_order] !== undefined ?
                     orders[current_order].dishes.map(item => (

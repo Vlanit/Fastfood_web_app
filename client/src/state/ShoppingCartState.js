@@ -1,5 +1,5 @@
-import { makeAutoObservable, toJS } from "mobx";
-import { socket } from "../api/server_api";
+import { makeAutoObservable, runInAction, toJS } from "mobx";
+import instance from "../api/server_api";
 import { io } from 'socket.io-client';
 
 class ShoppingCartState {
@@ -135,11 +135,13 @@ class ShoppingCartState {
             this._isstarted = storage_data.isstatred;
             this._iscooked = storage_data.iscooked;
             this._isfinished = storage_data.isfinished;
+            this.current_order_id = storage_data.id;
         }
     }
 
     setDataToSessionStorage() {
         const json_data = {
+            id: this.current_order_id,
             name: this._name,
             surname: this._surname,
             phone_number: this._phone_number,
@@ -220,7 +222,8 @@ class ShoppingCartState {
                 id: item,
                 dish_id: current.dish_id, 
                 size: current.size, 
-                count: current.count
+                count: current.count,
+                current_price: current.current_price
             };
         });
         const products_keys_array = Array.from(this._product_array.keys());
@@ -243,8 +246,8 @@ class ShoppingCartState {
             order_datetime: new Date(),
             dishes: dishes_array,
             products: products_array,
-            outlet: this._outlet
-        }
+            outlet_id: this._outlet
+        };
         this._ordered = true;
         this.socket = io('http://localhost:3000');
         this.socket.emit('new_order_inserted', order_object);
@@ -252,8 +255,16 @@ class ShoppingCartState {
             this._isstarted = order_status.isstarted;
             this._iscooked = order_status.iscooked;
             this._isfinished = order_status.isfinished;
-            console.log(this._isstarted, this._iscooked, this._isfinished);
         });
+        /*await instance.post('/save_order_to_store', {order_id: Date.now().toString(), order_data: order_object}).then((response) => {
+            runInAction(() => {
+                this.current_order_id = response.data.order_id;
+            });
+        });
+        console.log('id', this.current_order_id);
+        await instance.get(`/get_order_from_store?order_id=${this.current_order_id}`).then((response) => {
+            console.log('get', response.data);
+        });*/
     }
 }
 

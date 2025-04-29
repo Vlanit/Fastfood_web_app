@@ -42,7 +42,7 @@ function App(props) {
   }, []);
 
   return (
-    <div style={{...interface_styles.body, backgroundColor: interface_colors.background_color, color: interface_colors.text_color}}>
+    <div style={{...interface_styles.body, backgroundColor: interface_colors.background_color, color: interface_colors.text_color, width: "1470px"}}>
       <div style={is_page_darkened?interface_styles.darkened:null}>
         <Header></Header>
         <NavPanel shopping={setShoppingCart} login={setLogin} darken={setDark}></NavPanel>
@@ -50,7 +50,7 @@ function App(props) {
           <Route path='/' element={<MainPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/actions' element={<ActionPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/menu' element={<MenuPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
-          <Route path='/cahsier_duty' element={<CashierPage/>}></Route>
+          <Route path='/cashier' element={<CashierPage/>}></Route>
           <Route path='/admin' element={<AdminPanel/>}></Route>
           <Route path='/info' element={<InfoPage/>}></Route>
         </Routes>
@@ -59,7 +59,7 @@ function App(props) {
       {is_info_card_open?<DishProductWindow id={info_card_data.id} name={info_card_data.name} 
         image_path={info_card_data.image_path} description={info_card_data.description} price={info_card_data.price}
         dish={info_card_data.dish} product={info_card_data.product}
-        real_id={info_card_data.dish ? main_page_store.dishes[info_card_data.id] : main_page_store.products[info_card_data.id]}
+        real_id={info_card_data.dish ? main_page_store.dishes[info_card_data.id].dish_id : main_page_store.products[info_card_data.id].product_id}
         exit_action={() => {setInfoCard(false); setDark(false);}}></DishProductWindow>:null}
       {is_shopping_cart_open?<ShoppingCart exit_action={() => {setShoppingCart(false); setDark(false);}}></ShoppingCart>:null}
       {is_login_open?<LoginTab register_action={() => {setRegister(true); setLogin(false)}} exit_action={() => {setLogin(false); setDark(false)}}></LoginTab>:null}
