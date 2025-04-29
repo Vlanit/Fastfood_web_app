@@ -71,14 +71,14 @@ const ShoppingCart = observer((props) => {
                             <DishCard mini={true} id={item} name={products_menu[item].name} 
                             image_path={products_menu[item].image_path} discount={products_menu[item].discount} price={products_menu[item].price}
                             type={'product'} 
-                            count={order_products.get(item)} 
+                            count={order_products.get(item).count} 
                             can_interact={!shopping_cart_store.isordered}/>
                         ))}
                     </div>
                 </div>
             </div>
             <div style={{...interface_styles.order_form, backgroundColor: interface_colors.secondary_background_color}}>
-                <div style={interface_styles.order_form_table}>
+                <div style={{marginTop: "30px", marginBottom: "30px", ...interface_styles.order_form_table}}>
                     <label style={interface_styles.p}>Имя: </label>
                     {shopping_cart_store.isordered ? 
                         <p>{shopping_cart_store.name}</p>:

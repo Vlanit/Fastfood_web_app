@@ -1,6 +1,7 @@
 import { useState } from "react";
 import instance from "../../api/server_api"
-import { interface_styles, interface_colors } from "../../styles/ColorData";
+import { interface_styles, input, p, button, button_hover } from "../../styles/ColorData";
+import Button from "./Button";
 
 function BusinessCustomizationTab(props) {
     const [number_facts_count, setNumberFacts] = useState(0);
@@ -36,29 +37,29 @@ function BusinessCustomizationTab(props) {
     }
 
     return (
-        <div>
+        <div style={{marginRight: "150px"}}>
             <form action = {changeBusinessData} style={{...interface_styles.dish_card_list, ...interface_styles.card_grid_two}}>
-                <label>Логотип: </label>
-                <input type="file" name="image" accept="image/*"/>
-                <input type="text" name="about_us_title" placeholder={"Заголовок раздела 'О нас'"}/>
-                <input type="text" name="about_us_text" placeholder={"Текст раздела 'О нас'"}/>
-                <label>Изображение для блока "О нас": </label>
-                <input type="file" name="image" accept="image/*"/>
-                <input type="text" name="about_production_title" placeholder={"Заголовок раздела 'О продукции'"}/>
-                <input type="text" name="about_production_text" placeholder={"Заголовок раздела 'О продукции'"}/>
-                <label>Изображение для блока "О продукции": </label>
-                <input type="file" name="image" accept="image/*"/>
-                <input type="text" name="contact_person" placeholder={"Контактное лицо"}/>
-                <input type="text" name="contact_phone" placeholder={"Контактный телефон"}/>
-                <input type="text" name="contact_email" placeholder={"Контактный email"}/>
-                <label>Изображение для блока "Контакты": </label>
-                <input type="file" name="image" accept="image/*"/>
-                <input type="number" name="number_facts_count" min={0} placeholder={"Количество перечисленных файлов"}
+                <label style={interface_styles.bold}>Логотип: </label>
+                <input style={input} type="file" name="image" accept="image/*"/>
+                <input style={input} type="text" name="about_us_title" placeholder={"Заголовок раздела 'О нас'"}/>
+                <input style={input} type="text" name="about_us_text" placeholder={"Текст раздела 'О нас'"}/>
+                <label style={interface_styles.bold}>Изображение для блока "О нас": </label>
+                <input style={input} type="file" name="image" accept="image/*"/>
+                <input style={input} type="text" name="about_production_title" placeholder={"Заголовок раздела 'О продукции'"}/>
+                <input style={input} type="text" name="about_production_text" placeholder={"Заголовок раздела 'О продукции'"}/>
+                <label style={interface_styles.bold}>Изображение для блока "О продукции": </label>
+                <input style={input} type="file" name="image" accept="image/*"/>
+                <input style={input} type="text" name="contact_person" placeholder={"Контактное лицо"}/>
+                <input style={input} type="text" name="contact_phone" placeholder={"Контактный телефон"}/>
+                <input style={input} type="text" name="contact_email" placeholder={"Контактный email"}/>
+                <label style={interface_styles.bold}>Изображение для блока "Контакты": </label>
+                <input style={input} type="file" name="image" accept="image/*"/>
+                <input style={input} type="number" name="number_facts_count" min={0} placeholder={"Количество перечисленных файлов"}
                     max={6} value={number_facts_count} onChange={(event) => {setNumberFacts(event.target.value)}}/>
                 {factInputs}
-                <label>Изображение для блока "В цифрах": </label>
-                <input type="file" name="image" accept="image/*"/>
-                <button type="submit">Изменить данные</button>
+                <label style={interface_styles.bold}>Изображение для блока "В цифрах": </label>
+                <input style={input} type="file" name="image" accept="image/*"/>
+                <Button text={"Изменить данные"} main_style={button} hover_style={button_hover}/>
             </form>
         </div>
     )

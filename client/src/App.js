@@ -44,7 +44,7 @@ const App = observer((props) => {
   }, []);
 
   return (
-    <div style={{...interface_styles.body, backgroundColor: interface_colors.background_color, color: interface_colors.text_color, width: "1470px"}}>
+    <div style={{...interface_styles.body, backgroundColor: interface_colors.background_color, color: interface_colors.text_color, width: "1530px"}}>
       <div style={is_page_darkened?interface_styles.darkened:null}>
         <Header></Header>
         <NavPanel shopping={setShoppingCart} login={setLogin} darken={setDark}></NavPanel>

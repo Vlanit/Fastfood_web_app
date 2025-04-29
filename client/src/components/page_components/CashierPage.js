@@ -25,23 +25,23 @@ const CashierPage = observer((props) => {
             return "Приготовлено";
         }
         if (order.iscooked && !order.isfinished) {
-            if (order.delivery) {
-                return "В пути";
-            }
-            else {
-                return "Ожидает в заведении";
-            }
+            return "Завершить";
         }
         return "";  
     };
+
+    if (user_data_store.orders[current_order]?.isfinished) {
+        setOrder(-1);
+    }
 
     return (
         <div style={interface_styles.flex_between}>
             <div style={interface_styles.order_contents}>
                 {orders.map((item, index) => {
-                    return <CashierOrderCard first_action={() => user_data_store.changeOrderStatus(index)} second_action={() => {setOrder(index)}}
-                        id={item.order_id} name={item.name} surname={item.surname} delivery={item.delivery} address={item.delivery_address}
-                        datetime={item.order_datetime} first_button_name={getStateName(orders[index])} second_button_name={"Просмотр"}/>
+                    if (!item.isfinished)
+                        return <CashierOrderCard first_action={() => user_data_store.changeOrderStatus(index)} second_action={() => {setOrder(index)}}
+                            id={item.order_id} name={item.name} surname={item.surname} delivery={item.delivery} address={item.delivery_address}
+                            datetime={item.order_datetime} first_button_name={getStateName(orders[index])} second_button_name={"Просмотр"}/>
                 })}
             </div>
             <div style={{...interface_styles.order_contents, backgroundColor: interface_colors.secondary_background_color}}>

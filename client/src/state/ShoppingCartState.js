@@ -258,6 +258,25 @@ class ShoppingCartState {
             this._isstarted = order_status.isstarted;
             this._iscooked = order_status.iscooked;
             this._isfinished = order_status.isfinished;
+            if (this._isfinished) {
+                alert("Приятного аппетита!");
+                this.loaded = false;
+                this._name = "";
+                this._surname = "";
+                this._phone_number = "";
+                this._delivery = false;
+                this._town = "";
+                this._delivery_address = "";
+                this._outlet = -1;
+                this._dish_array = new Map();
+                this._product_array = new Map();
+                this._price = 0;
+                this._ordered = false;
+                this._isstarted = false;
+                this._iscooked = false;
+                this._isfinished = false;
+                sessionStorage.clear();
+            }
         });
         /*await instance.post('/save_order_to_store', {order_id: Date.now().toString(), order_data: order_object}).then((response) => {
             runInAction(() => {

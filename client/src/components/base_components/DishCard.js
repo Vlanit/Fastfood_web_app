@@ -1,7 +1,7 @@
 import Button from "./Button";
 import Link from "./Link";
 
-import { interface_colors, interface_styles } from "../../styles/ColorData";
+import { interface_colors, interface_styles, p } from "../../styles/ColorData";
 import { shopping_cart_store } from "../../state/ShoppingCartState";
 
 function DishCard(props) {

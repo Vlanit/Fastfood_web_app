@@ -14,7 +14,7 @@ const MenuPage = observer((props) => {
     const [price, setPrice] = useState('0');
     const [search, setSearch] = useState('');
 
-    const table_style = {...interface_styles.dish_card_list, ...interface_styles.card_grid_three};
+    const table_style = { ...interface_styles.section, marginTop: 0, ...interface_styles.dish_card_list, ...interface_styles.card_grid_three};
 
     function cardAction(type, id, data) {
         props.darken(true);

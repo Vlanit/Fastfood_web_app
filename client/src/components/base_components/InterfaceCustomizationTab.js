@@ -1,4 +1,4 @@
-import {interface_colors, interface_styles, p} from "../../styles/ColorData";
+import {interface_colors, interface_styles, p, button, button_hover, select} from "../../styles/ColorData";
 import Button from "./Button";
 import instance from "../../api/server_api";
 
@@ -15,7 +15,7 @@ function InterfaceCustomizationTab(props) {
     };
 
     return (
-        <div>
+        <div style={{marginRight: "150px"}}>
             <form action={insertInterfaceChanges} style={{...interface_styles.dish_card_list, ...interface_styles.card_grid_two}}>
                 <label style={p}>Задний фон: </label>
                 <input type="color" id="background_color" name="background_color" defaultValue={interface_colors.background_color}/>
@@ -54,11 +54,11 @@ function InterfaceCustomizationTab(props) {
                 <label style={p}>Цвет границ полей ввода: </label>
                 <input type="color" id="input_border_color" name="input_border_color" defaultValue={interface_colors.input_border_color}/>
                 <label style={p}>Используемый макет: </label>
-                <select id="layout_num" name="layout_num">
+                <select style={select} id="layout_num" name="layout_num">
                     <option value={1}>Стандарт</option>
                     <option value={2}>ДоДо-стиль</option>
                 </select>
-                <button type="submit">Изменить дизайн</button>
+                <Button text={"Изменить дизайн"} main_style={button} hover_style={button_hover}/>
             </form>
         </div>
     )

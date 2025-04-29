@@ -52,7 +52,7 @@ app.get('/api/actions', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({error:'Something went wrong when trying to get actions!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -63,7 +63,7 @@ app.get('/api/toppings', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({error:'Something went wrong when trying to get toppings!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -78,7 +78,7 @@ app.get('/api/dishes', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({error:'Something went wrong when trying to get dishes!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -89,7 +89,7 @@ app.get('/api/products', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({error:'Something went wrong when trying to get products!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -100,7 +100,7 @@ app.get('/api/outlets', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({error:'Something went wrong when trying to get outlets list!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -111,7 +111,7 @@ app.get('/api/towns', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({error:'Something went wrong when trying to get towns list!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -129,7 +129,7 @@ app.get('/api/full_data', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({error:'Something went wrong when trying to get the menu!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -159,7 +159,7 @@ app.get('/api/active_orders_by_outlet', async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        res.status(500).json({error:'Something went wrong when trying to get orders list!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -198,11 +198,11 @@ app.post('/api/add_topping', file_uploader.single('image'), async (req, res) => 
         const data = req.body;
         await client_pool.query(`insert into topping(name, type, price, image_path, ismeaty, isspicy) values($1, $2, $3, $4, $5, $6)`, 
             [data.name, data.type, data.price, req.file.filename, (data.ismeaty=='on'?1:0), (data.isspicy=='on'?1:0)]);
-        res.json({result: "Topping is added!"});
+        res.json({result: 'Ингредиент добавлен!'});
     }
     catch (error) {
         console.error(error.stack);
-        res.status(500).json({error:'Something went wrong when trying to add new topping!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -218,11 +218,11 @@ app.post('/api/add_dish', file_uploader.single('image'), async (req, res) => {
                 await client_pool.query(`insert into dish_topping(topping_id, dish_id) values($1, $2)`, 
                     [element, inserted_dish_id]);
         })
-        res.json({result: "Dish is added!"});
+        res.json({result: 'Блюдо добавлено!'});
     }
     catch (error) {
         console.error(error.stack);
-        res.status(500).json({error:'Something went wrong when trying to add dish!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -231,11 +231,11 @@ app.post('/api/add_product', file_uploader.single('image'), async (req, res) => 
         const data = req.body;
         await client_pool.query(`insert into product(name, price, image_path, description, type) values($1, $2, $3, $4, $5)`, 
             [data.name, data.price, req.file.filename, data.description, data.type]);
-        res.json({result: "Product is added!"});
+        res.json({result: "Товар был добавлен!"});
     }
     catch (error) {
         console.error(error.stack);
-        res.status(500).json({error:'Something went wrong when trying to add product!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -244,11 +244,11 @@ app.post('/api/add_outlet', async (req, res) => {
         const data = req.body;
         await client_pool.query(`insert into outlet(town, address, district) values($1, $2, $3)`, 
             [data.town, data.address, data.district]);
-        res.json({result: "Outlet is added!"});
+        res.json({result: "Заведение было добавлено"});
     }
     catch(error) {
         console.error(error.stack);
-        res.status(500).json({error:'Something went wrong when trying to add outlet!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -256,11 +256,11 @@ app.post('/api/change_interface_data', async (req, res) => {
     try {
         const interface_file_path = __dirname + '/interface-config.json';
         fs.writeFileSync(interface_file_path, JSON.stringify(req.body));
-        res.json({result: "Data of the interface has been changed"});
+        res.json({result: "Данные интерфейса были изменены!"});
     }
     catch(error) {
         console.error(error.stack);
-        res.status(500).json({error:'Something went wrong when trying to change color data of interface!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -297,11 +297,11 @@ app.post('/api/change_business_data', file_uploader.array('image'), async (req, 
         };
         const interface_file_path = __dirname + '/business-config.json';
         fs.writeFileSync(interface_file_path, JSON.stringify(form_data));
-        res.json({result: "Data of your business has been changed"});
+        res.json({result: "Данные бизнеса были изменены!"});
     }
     catch(error) {
         console.error(error.stack);
-        res.status(500).json({error:'Something went wrong when trying to change color data of interface!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -316,34 +316,36 @@ app.get('/api/login', async (req, res) => {
                 res.json({error: true, result: "Не верный пароль"});
             }
         }
-        const user_data = await client_pool.query(`select * from account where login = $1`, [req.query.login]);
-        if (user_data.rows.length == 0) {
-                const cashier_data = await client_pool.query(`select * from cashier_account where login = $1`, [req.query.login]);
-                if (cashier_data.rows.length == 0) {
-                    res.json({error: true, result: "Не верный логин"});
-                }
-                else {
-                    const compare_data = await bcrypt.compare(req.query.password, cashier_data.rows[0].password);
-                    if (compare_data) {
-                        res.json({ error: false, cashier: true, user_data: cashier_data.rows[0]});
+        else {
+            const user_data = await client_pool.query(`select * from account where login = $1`, [req.query.login]);
+            if (user_data.rows.length == 0) {
+                    const cashier_data = await client_pool.query(`select * from cashier_account where login = $1`, [req.query.login]);
+                    if (cashier_data.rows.length == 0) {
+                        res.json({error: true, result: "Не верный логин"});
                     }
                     else {
-                        res.json({error: true, result: "Не верный пароль"});
+                        const compare_data = await bcrypt.compare(req.query.password, cashier_data.rows[0].password);
+                        if (compare_data) {
+                            res.json({ error: false, cashier: true, user_data: cashier_data.rows[0]});
+                        }
+                        else {
+                            res.json({error: true, result: "Не верный пароль"});
+                        }
                     }
                 }
-            }
-        else {
-            const compare_data = await bcrypt.compare(req.query.password, user_data.rows[0].password);
-            if (compare_data) {
-                res.json({ error: false, user_data: user_data.rows[0]});
-            }
             else {
-                res.json({error: true, result: "Не верный логин"});
+                const compare_data = await bcrypt.compare(req.query.password, user_data.rows[0].password);
+                if (compare_data) {
+                    res.json({ error: false, user_data: user_data.rows[0]});
+                }
+                else {
+                    res.json({error: true, result: "Не верный логин"});
+                }
             }
         }
     }
     catch(err) {
-        res.status(500).json({error:'Something went wrong when trying to login user!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -356,14 +358,14 @@ app.post('/api/register_new_client', async (req, res) => {
         const same_cashier_logins = await client_pool.query(`select * from cashier_account where login = $1`, [data.login]);
         if (same_user_logins.rows.length == 0 && same_cashier_logins.rows.length == 0 && data.login != process.env.ADMIN_ACCOUNT) {
             await client_pool.query(`insert into account(image_path, name, surname, coins, town, address, login, password) values($1, $2, $3, 0, $4, $5, $6, $7)`, [imagepath, data.name, data.surname, data.town, data.address, data.login, hashed_password]);
-            res.json({result: "New client is registered."});
+            res.json({result: "Новый клиент зарегистрирован"});
         }
         else {
-            res.json({result: "This login is already in use!"});
+            res.json({result: "Данный логин уже используется"});
         }
     }
     catch {
-        res.status(500).json({error:'Something went wrong when trying to register user!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 
@@ -377,14 +379,14 @@ app.post('/api/register_new_cashier', async (req, res) => {
         if (same_user_logins.rows.length == 0 && same_cashier_logins.rows.length == 0 && data.login != process.env.ADMIN_ACCOUNT) {
             await client_pool.query(`insert into cashier_account(name, surname, outlet_id, login, password) values($1, $2, $3, $4, $5)`, 
                 [data.name, data.surname, data.outlet, data.login, hashed_password]);
-            res.json({result: "New cashier is registered."});
+            res.json({result: "Новый кассир был зарегистрирован!"});
         }
         else {
-            res.json({result: "This login is already in use!"});
+            res.json({result: "Данный логин уже используется!"});
         }
     }
     catch {
-        res.status(500).json({error:'Something went wrong when trying to register user!'});
+        res.status(500).json({error:'Что-то пошло не так!'});
     }
 });
 

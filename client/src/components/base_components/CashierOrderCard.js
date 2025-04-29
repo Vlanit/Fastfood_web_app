@@ -10,7 +10,9 @@ function CashierOrderCard(props) {
                 <p style={interface_styles.p}>{`(${props.surname} ${props.name})`}</p>
             </div>
             <p style={{...p, ...interface_styles.description}}>{props.address}</p>
-            <h3 style={interface_styles.h3}>{props.datetime}</h3>
+            <h3 style={interface_styles.h3}>{
+                new Date(Date.parse(props.datetime)).toLocaleString("en-GB", { timeZone: "UTC" }).replaceAll('/', '.')
+            }</h3>
         </div>
         <div style={interface_styles.flex_between}>
             <Button text={props.first_button_name} main_style={{...button, ...interface_styles.large}}

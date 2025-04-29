@@ -357,7 +357,9 @@
       },
       
       "description": {
-        "textAlign": "left"
+        "textAlign": "left",
+        "paddingTop": "10px",
+        "paddingBottom": "10px"
       },
 
       "form_panel": {

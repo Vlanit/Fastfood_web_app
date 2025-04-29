@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { main_page_store } from '../../state/MainPageDataState.js';
 import { shopping_cart_store } from '../../state/ShoppingCartState.js';
@@ -16,6 +16,11 @@ const MainPage = observer((props) => {
 
     const buttonStyle = {...interface_styles.button, color: interface_colors.button_text_color, backgroundColor: interface_colors.button_color};
     const buttonHoverStyle = {...interface_styles.button, color: interface_colors.button_text_color_hover, backgroundColor: interface_colors.button_color_hover};
+
+    let navigate = useNavigate(); 
+    const routeChange = (path) =>{ 
+        navigate(path);
+    }
 
     function cardAction(type, id, data) {
         props.darken(true);
@@ -42,7 +47,7 @@ const MainPage = observer((props) => {
                     </div>
                     <div style={interface_styles.action_card_list}>
                     <Button text={"Посмотреть все доступные акции"} main_style={{...buttonStyle, ...interface_styles.large}}
-                        hover_style={{...buttonHoverStyle, ...interface_styles.large}}/>
+                        hover_style={{...buttonHoverStyle, ...interface_styles.large}} onClick={() => routeChange('/actions')}/>
                     </div>
                 </div>
             :null
@@ -109,7 +114,7 @@ const MainPage = observer((props) => {
             </div>
             <div style={interface_styles.action_card_list}>
                 <Button text={"Открыть полное меню"} main_style={{...buttonStyle, ...interface_styles.large}}
-                    hover_style={{...buttonHoverStyle, ...interface_styles.large}} onClick={()=>redirect('/menu')}/>
+                    hover_style={{...buttonHoverStyle, ...interface_styles.large}} onClick={() => routeChange('/menu')}/>
             </div>
             <DishConstructorCard image_path={"Constructor.png"}/>
         </section>

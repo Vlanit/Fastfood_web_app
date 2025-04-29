@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react';
 import instance from '../../api/server_api';
+import { interface_styles, button, button_hover } from '../../styles/ColorData';
+import Button from "./Button";
 
 function DishInsertTab(props) {
     const [topping_list] = useState(props.toppings);
@@ -13,7 +15,7 @@ function DishInsertTab(props) {
     };
 
     return (
-        <div>
+        <div style={{marginRight: "150px"}}>
             <form action = {insertDish}>
                 <input type="text" name="name" maxLength={50}/>
                 <select className="settings" name="dough_type" defaultValue={1}>
@@ -22,14 +24,16 @@ function DishInsertTab(props) {
                 </select>
                 <input type="number" name="price" defaultValue={0}/>
                 <input type="file" name="image" accept="image/*"/>
-                {props.toppings !== undefined? topping_list.map(item => 
-                (
-                    <div>
-                        <img src={`http://localhost:3000/api/images/${item.image_path}`}></img>
-                        <input type="checkbox" name={item.topping_id}/>
-                    </div>
-                )):<></>}
-                <button type="submit"> Добавить </button>
+                <div style={interface_styles.info_card_table}>
+                    {props.toppings !== undefined? topping_list.map(item => 
+                    (
+                        <div>
+                            <img src={`http://localhost:3000/api/images/${item.image_path}`}></img>
+                            <input type="checkbox" name={item.topping_id}/>
+                        </div>
+                    )):<></>}
+                </div>
+                <Button text={"Добавить"} main_style={button} hover_style={button_hover}/>
             </form>
         </div>
     )
