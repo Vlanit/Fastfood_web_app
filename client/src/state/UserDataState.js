@@ -93,6 +93,10 @@ class UserDataState {
                 if (data.error) {
                     this.error = data.error;
                 }
+                else if (data.admin) {
+                    this._admin = true;
+                    this.authorised = true;
+                }
                 else {
                     this._name = data.user_data.name;
                     this._surname = data.user_data.surname;

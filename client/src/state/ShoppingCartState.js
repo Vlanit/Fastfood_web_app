@@ -248,14 +248,15 @@ class ShoppingCartState {
             products: products_array,
             outlet_id: this._outlet
         };
-        this._ordered = true;
+        console.log()
+        /*this._ordered = true;
         this.socket = io('http://localhost:3000');
         this.socket.emit('new_order_inserted', order_object);
         this.socket.on('new_order_state', (order_status) => {
             this._isstarted = order_status.isstarted;
             this._iscooked = order_status.iscooked;
             this._isfinished = order_status.isfinished;
-        });
+        });*/
         /*await instance.post('/save_order_to_store', {order_id: Date.now().toString(), order_data: order_object}).then((response) => {
             runInAction(() => {
                 this.current_order_id = response.data.order_id;

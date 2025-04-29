@@ -1,4 +1,5 @@
 import {useState, useEffect, Component} from 'react';
+import { observer } from 'mobx-react-lite';
 
 import Header from './components/base_components/Header.js';
 import NavPanel from './components/base_components/NavPanel.js';
@@ -8,7 +9,7 @@ import LoginTab from './components/base_components/LoginTab.js';
 import ClientRegistrationTab from './components/base_components/ClientRegistrationTab.js';
 import ShoppingCart from './components/base_components/ShoppingCart.js';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import MainPage from './components/page_components/MainPage.js';
 import MenuPage from './components/page_components/MenuPage.js';
 import ActionPage from './components/page_components/ActionPage.js';
@@ -21,7 +22,7 @@ import { shopping_cart_store } from './state/ShoppingCartState.js';
 import { user_data_store } from './state/UserDataState.js';
 import { main_page_store } from './state/MainPageDataState';
 
-function App(props) {
+const App = observer((props) => {
   const [is_page_darkened, setDark] = useState(false);
   const [is_info_card_open, setInfoCard] = useState(false);
   const [info_card_data, setInfo] = useState({id: -1, name: '', image_path: '', description: '', price: 0, dish: false, product: false});
@@ -50,22 +51,36 @@ function App(props) {
           <Route path='/' element={<MainPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/actions' element={<ActionPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/menu' element={<MenuPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
-          <Route path='/cashier' element={<CashierPage/>}></Route>
-          <Route path='/admin' element={<AdminPanel/>}></Route>
+          <Route path='/success' action={() => console.log('redirect')} element={<Navigate replace to="/"/>}></Route>
+          <Route path='/error' element={<MainPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
+          {user_data_store.cashier ? 
+            <Route path='/cashier' element={<CashierPage/>}></Route> 
+          :null}
+          {user_data_store.admin ? 
+            <Route path='/admin' element={<AdminPanel/>}></Route>
+          :null}
           <Route path='/info' element={<InfoPage/>}></Route>
         </Routes>
         <Footer></Footer>
       </div>
-      {is_info_card_open?<DishProductWindow id={info_card_data.id} name={info_card_data.name} 
-        image_path={info_card_data.image_path} description={info_card_data.description} price={info_card_data.price}
-        dish={info_card_data.dish} product={info_card_data.product}
-        real_id={info_card_data.dish ? main_page_store.dishes[info_card_data.id].dish_id : main_page_store.products[info_card_data.id].product_id}
-        exit_action={() => {setInfoCard(false); setDark(false);}}></DishProductWindow>:null}
-      {is_shopping_cart_open?<ShoppingCart exit_action={() => {setShoppingCart(false); setDark(false);}}></ShoppingCart>:null}
-      {is_login_open?<LoginTab register_action={() => {setRegister(true); setLogin(false)}} exit_action={() => {setLogin(false); setDark(false)}}></LoginTab>:null}
-      {is_register_open?<ClientRegistrationTab exit_action={() => {setRegister(false); setDark(false)}}></ClientRegistrationTab>:null}
+      {is_info_card_open?
+        <DishProductWindow id={info_card_data.id} name={info_card_data.name} 
+          image_path={info_card_data.image_path} description={info_card_data.description} price={info_card_data.price}
+          dish={info_card_data.dish} product={info_card_data.product}
+          real_id={info_card_data.dish ? main_page_store.dishes[info_card_data.id].dish_id : main_page_store.products[info_card_data.id].product_id}
+          exit_action={() => {setInfoCard(false); setDark(false);}}/>
+        :null}
+      {is_shopping_cart_open?
+        <ShoppingCart exit_action={() => {setShoppingCart(false); setDark(false);}}/>
+        :null}
+      {is_login_open?
+        <LoginTab register_action={() => {setRegister(true); setLogin(false)}} exit_action={() => {setLogin(false); setDark(false)}}/>
+        :null}
+      {is_register_open?
+        <ClientRegistrationTab exit_action={() => {setRegister(false); setDark(false)}}/>
+        :null}
     </div>
   );
-}
+});
 
 export default App;

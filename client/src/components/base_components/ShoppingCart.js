@@ -161,7 +161,7 @@ const ShoppingCart = observer((props) => {
                             <input disabled="" type="hidden" name="price" value={shopping_cart_store.price}/>
                             <input disabled="" type="hidden" name="customerNumber" value={`(${shopping_cart_store.surname} ${shopping_cart_store.name})`}/>
                             <input disabled="" type="hidden" name="shopId" value={"1078773"}/>
-                            <input disabled="" type="hidden" name="shopSuccessURL" value={"http://localhost:3001/succeeded"} />
+                            <input disabled="" type="hidden" name="shopSuccessURL" value={"http://localhost:3001/success"} />
                             <input disabled="" type="hidden" name="shopFailURL" value={"http://localhost:3001/error"}/>
                             <Button text={"Перейти к оплате"} main_style={buttonStyle} hover_style={buttonHoverStyle}/>
                         </form>

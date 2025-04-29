@@ -4,7 +4,7 @@ import ActionCard from "../base_components/ActionCard.js";
 import DishCard from "../base_components/DishCard.js";
 import ProductCard from "../base_components/ProductCard.js";
 
-import { interface_styles, interface_colors } from "../../styles/ColorData.js";
+import { interface_styles, interface_colors, h1 } from "../../styles/ColorData.js";
 import { main_page_store } from "../../state/MainPageDataState.js";
 import { shopping_cart_store } from '../../state/ShoppingCartState.js';
 
@@ -23,22 +23,24 @@ const ActionPage = observer((props) => {
         props.info(true);
     }
 
+    console.log(main_page_store.actions);
+
     return (
         <div style={interface_styles.section}>
-            {props.actions !== undefined?
-                <div>
-                    <h1>Акции</h1>
-                    <div class="action_card_list_down">
+            {main_page_store.actions !== undefined?
+                <div style={interface_styles.section}>
+                    <h1 style={h1}>Акции</h1>
+                    <div style={interface_styles.action_card_list_down}>
                         {main_page_store.actions !== undefined? 
                             main_page_store.actions.map((item, index) => (
-                                (index < 2) ?<ActionCard class="big_action_card" name={item.name} description={item.description} image_path={item.image_path}/>:null
+                                (index < 2) ?<ActionCard big={true} name={item.name} description={item.description} image_path={item.image_path}/>:null
                             )):
                         <></>}
                     </div>
-                    <div class="action_card_list">
+                    <div style={interface_styles.action_card_list}>
                         {main_page_store.actions !== undefined? 
                             main_page_store.actions.map((item, index) => (
-                                (index >= 2) ?<ActionCard class="action_card" name={item.name} description={item.description} image_path={item.image_path}/>:null
+                                (index >= 2) ?<ActionCard name={item.name} description={item.description} image_path={item.image_path}/>:null
                             )):
                         <></>}
                     </div>

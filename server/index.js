@@ -307,6 +307,15 @@ app.post('/api/change_business_data', file_uploader.array('image'), async (req, 
 
 app.get('/api/login', async (req, res) => {
     try {
+        if (req.query.login == process.env.ADMIN_ACCOUNT) {
+            const compare_data = await bcrypt.compare(req.query.password, process.env.ADMIN_PASSWORD);
+            if (compare_data) {
+                res.json({ error: false, admin: true});
+            }
+            else {
+                res.json({error: true, result: "Не верный пароль"});
+            }
+        }
         const user_data = await client_pool.query(`select * from account where login = $1`, [req.query.login]);
         if (user_data.rows.length == 0) {
                 const cashier_data = await client_pool.query(`select * from cashier_account where login = $1`, [req.query.login]);
@@ -345,7 +354,7 @@ app.post('/api/register_new_client', async (req, res) => {
         const data = req.body;
         const same_user_logins = await client_pool.query(`select * from account where login = $1`, [data.login]);
         const same_cashier_logins = await client_pool.query(`select * from cashier_account where login = $1`, [data.login]);
-        if (same_user_logins.rows.length == 0 && same_cashier_logins.rows.length == 0) {
+        if (same_user_logins.rows.length == 0 && same_cashier_logins.rows.length == 0 && data.login != process.env.ADMIN_ACCOUNT) {
             await client_pool.query(`insert into account(image_path, name, surname, coins, town, address, login, password) values($1, $2, $3, 0, $4, $5, $6, $7)`, [imagepath, data.name, data.surname, data.town, data.address, data.login, hashed_password]);
             res.json({result: "New client is registered."});
         }
@@ -365,7 +374,7 @@ app.post('/api/register_new_cashier', async (req, res) => {
         const hashed_password = await bcrypt.hash(data.password, salt);
         const same_user_logins = await client_pool.query(`select * from account where login = $1`, [data.login]);
         const same_cashier_logins = await client_pool.query(`select * from cashier_account where login = $1`, [data.login]);
-        if (same_user_logins.rows.length == 0 && same_cashier_logins.rows.length == 0) {
+        if (same_user_logins.rows.length == 0 && same_cashier_logins.rows.length == 0 && data.login != process.env.ADMIN_ACCOUNT) {
             await client_pool.query(`insert into cashier_account(name, surname, outlet_id, login, password) values($1, $2, $3, $4, $5)`, 
                 [data.name, data.surname, data.outlet, data.login, hashed_password]);
             res.json({result: "New cashier is registered."});
