@@ -306,6 +306,10 @@
       "card_grid_four": {
         "gridTemplateColumns": "repeat(4, 305px)"
       },
+
+      "card_grid_four_for_toppings": {
+        "gridTemplateColumns": "repeat(3, 96px)"
+      },
       
       "dish_card": {
         "width": "285px",
