@@ -41,8 +41,6 @@ const storage = multer.diskStorage({
     }
 })
 
-let order_store = new Map();
-
 const file_uploader = multer({storage:storage});
 
 app.get('/api/actions', async (req, res) => {
@@ -155,7 +153,7 @@ app.get('/api/active_orders_by_outlet', async (req, res) => {
             });
             return { ...order, dishes: dishes_order, products: products_order };
         });
-        res.json({orders: merge_data});
+        res.json(merge_data);
     }
     catch (err) {
         console.log(err);
@@ -177,20 +175,6 @@ app.get('/api/get_interface_data', (req, res) => {
     const design_layout = fs.readFileSync(layout_file_path);
     const design_layout_json = JSON.parse(design_layout);
     res.json({colors: interface_file_json, styles: design_layout_json});
-});
-
-app.get('/api/get_order_from_store', (req, res) => {
-    const id = req.query.order_id;
-    res.json({order: order_store.get(id)});
-});
-
-app.post('/api/save_order_to_store', (req, res) => {
-    const data = req.body;
-    if (!order_store.has(data.order_id))
-    {
-        order_store.set(data.order_id, data.order_data);
-    }
-    res.json({order_id: data.order_id});
 });
 
 app.post('/api/add_topping', file_uploader.single('image'), async (req, res) => {
@@ -464,3 +448,5 @@ socket_server.on('connection', (socket) => {
         socket_server.in(order_status.client).emit('new_order_state', order_status);
     })
 });
+
+module.exports = app;
