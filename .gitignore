@@ -6,3 +6,4 @@ data
 **/package*.json
 **/*.sql
 **/docker-compose.yml
+**/load_testing_results

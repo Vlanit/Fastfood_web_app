@@ -28,19 +28,7 @@ function ClientRegistrationTab(props) {
                             <option value={index}>{item.town}</option>
                         ))}
                 </select>
-
-                <select style={select} 
-                    id="outlet" name="outlet" onChange={(event) => shopping_cart_store.outlet = event.target.value}>
-                        {
-                            franchise_data_store.outlets.map(item =>
-                                {
-                                    if (franchise_data_store.towns[current_town]==item.town) {
-                                        return <option value={item.outlet_id}>{item.address}</option>
-                                }
-                            }
-                        )
-                    }
-                </select>
+                
                 <input style={input} type="text" name="login" placeholder="Логин" maxLength={20}/>
                 <input style={input} type="text" name="password" placeholder="Пароль" maxLength={30}/>
                 <Button text={"Зарегистрировать"} main_style={button} hover_style={button_hover}/>
