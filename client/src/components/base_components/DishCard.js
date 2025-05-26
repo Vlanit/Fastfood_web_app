@@ -3,21 +3,30 @@ import Link from "./Link";
 
 import { interface_colors, interface_styles, p } from "../../styles/ColorData";
 import { shopping_cart_store } from "../../state/ShoppingCartState";
+import { main_page_store } from "../../state/MainPageDataState";
 
 function DishCard(props) {
     function minusAction() {
-        if (props.type == 'dish')
-            shopping_cart_store.decreaseCountOfDish(props.id.toString(), props.price);
-        else
-            shopping_cart_store.decreaseCountOfProduct(props.id.toString(), props.price);
-    }
+        switch(props.type) {
+            case 'dish': 
+                shopping_cart_store.decreaseCountOfDish(props.id.toString());
+            case 'product':
+                shopping_cart_store.decreaseCountOfProduct(props.id.toString());
+            case 'custom':
+                shopping_cart_store.decreaseCountOfCustom(props.id);
+        }
+    };
 
     function plusAction() {
-        if (props.type == 'dish')
-            shopping_cart_store.increaseCountOfDish(props.id.toString(), props.price);
-        else
-            shopping_cart_store.increaseCountOfProduct(props.id.toString(), props.price);
-    }
+        switch(props.type) {
+            case 'dish': 
+                shopping_cart_store.increaseCountOfDish(props.id.toString());
+            case 'product':
+                shopping_cart_store.increaseCountOfProduct(props.id.toString());
+            case 'custom':
+                shopping_cart_store.increaseCountOfCustom(props.id);
+        }
+    };
 
     const baseStyle = (props.mini?interface_styles.dish_card_mini:interface_styles.dish_card);
 
@@ -30,7 +39,19 @@ function DishCard(props) {
             <div style={{...interface_styles.discount, backgroundColor:interface_colors.discount_background_color}}>
                 <p style={{...interface_styles.p, color: interface_colors.secondary_text_color}}>{`-${props.discount}%`}</p>
             </div>: null}
-            <img src={`http://localhost:3000/api/images/${props.image_path}`}/>
+            {props.image_path !== undefined?
+                <img src={`http://localhost:3000/api/images/${props.image_path}`}/>
+                :
+                props.ingredients_list !== undefined?
+                        <div>
+                            <img style={{position: "absolute"}} src='http://localhost:3000/api/images/1745709455789image.png'/>
+                            {props.ingredients_list.map(item => 
+                                <img style={{position: "absolute"}} 
+                                    src={`http://localhost:3000/api/images/${main_page_store[item].constructor_image}`}/>
+                            )}
+                        </div>
+                    :null
+            }
             <h3 style={interface_colors.h3}>{props.name}</h3>
             {props.description !== undefined && props.description != "" ? 
                 <p style={{...interface_colors.description, color:interface_colors.description_text_color}}>{props.description}</p>

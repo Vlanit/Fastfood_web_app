@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import { interface_styles, interface_colors, button, button_hover } from '../../styles/ColorData';
 import { observer } from 'mobx-react-lite';
 import { main_page_store } from '../../state/MainPageDataState';
+import { shopping_cart_store } from '../../state/ShoppingCartState'
 import Button from "../base_components/Button";
 import Link from '../base_components/Link';
 import Topping from '../base_components/Topping';
@@ -11,6 +12,8 @@ const ConstructorPage = observer((props) => {
     const [used_toppings, changeToppings] = useState([]);
     const [price, changePrice] = useState(200);
     const [size, setSize] = useState(2);
+    const [count, setCount] = useState(1);
+    const [dough_type, setDoughType] = useState(1);
 
     useEffect(() => {
         let new_array = Array(main_page_store.toppings.length).fill(false);
@@ -34,13 +37,24 @@ const ConstructorPage = observer((props) => {
     };
 
     function AddDishProductToShoppingCart() {
-        if (props.dish) {
-            console.log(props.id);
-        }
-        else {
-
-        }
+        let ingredients_list = [];
+        used_toppings.map((item, index) => {
+            if (item) {
+                ingredients_list.push(main_page_store.toppings[index]);
+            }
+        });
+        shopping_cart_store.addCustomDishToCart(count, size, dough_type, price, ingredients_list);
     };
+
+    function ClearConstructorData() {
+        let new_array = Array(main_page_store.toppings.length).fill(false);
+        changeToppings(new_array);
+        setType(1);
+        changePrice(200);
+        setSize(2);
+        setCount(1);
+        setDoughType(1);
+    }
 
     return (
         <div style={interface_styles.section}>
@@ -50,7 +64,8 @@ const ConstructorPage = observer((props) => {
                     <h3>Основа пиццы</h3>
                     <div style={{...interface_styles.dish_card_list, ...interface_styles.card_grid_two}}>
                         <label>Тесто: </label>
-                        <select style={{...interface_styles.select, borderColor: interface_colors.select_border_color}} 
+                        <select onChange={(event) => setDoughType(event.target.value)}
+                            style={{...interface_styles.select, borderColor: interface_colors.select_border_color}} 
                             id="base_type" name="base_type">
                                 <option value={1}>Стандартное</option>
                                 <option value={2}>Пшеничное</option>
@@ -64,7 +79,8 @@ const ConstructorPage = observer((props) => {
                                 <option value={3}>Большая (35 см)</option>
                         </select>
                         <label style={interface_styles.p}>Количество: </label>
-                        <input style={{...interface_styles.input, borderColor: interface_colors.input_border_color}} 
+                        <input onChange={(event) => setCount(event.target.value)} 
+                            style={{...interface_styles.input, borderColor: interface_colors.input_border_color}} 
                             type="number" name="count" defaultValue={0} min={1} max={6}/>
                     </div>
                     <div style={{width: "589px", height: "589px", marginTop: "20px"}}>
@@ -115,10 +131,13 @@ const ConstructorPage = observer((props) => {
                 </div>
             </div>
             <div style={{...interface_styles.action_card_list, gap: "180px"}}>
+                <Button text={"Начать заново"} main_style={{...button, ...interface_styles.large}}
+                    hover_style={{...button_hover, ...interface_styles.large}}
+                    onClick={() => ClearConstructorData()}/>
                 <h3>Стоимость: {Math.round(price + price * (size - 2) * 0.15)} ₽</h3>
                 <Button text={"В корзину"} main_style={{...button, ...interface_styles.large}}
                     hover_style={{...button_hover, ...interface_styles.large}}
-                    onClick={() => {AddDishProductToShoppingCart(); props.exit_action()}}/>
+                    onClick={() => {AddDishProductToShoppingCart(); ClearConstructorData()}}/>
             </div>
         </div>
     );

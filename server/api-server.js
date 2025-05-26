@@ -175,8 +175,10 @@ module.exports = function(db) {
     app.post('/api/add_topping', file_uploader.single('image'), async (req, res) => {
         try {
             const data = req.body;
+            console.log(req.body.filename);
+            const filename = req.body.filename !== undefined ? req.body.filename : req.file.filename;
             await db.query(`insert into topping(name, type, price, image_path, ismeaty, isspicy) values($1, $2, $3, $4, $5, $6)`, 
-                [data.name, data.type, data.price, req.file.filename, (data.ismeaty=='on'?1:0), (data.isspicy=='on'?1:0)]);
+                [data.name, data.type, data.price, filename, (data.ismeaty=='on'?1:0), (data.isspicy=='on'?1:0)]);
             res.json({result: 'Ингредиент добавлен!'});
         }
         catch (error) {
@@ -188,14 +190,14 @@ module.exports = function(db) {
     app.post('/api/add_dish', file_uploader.single('image'), async (req, res) => {
         try {
             const data = req.body;
-            await db.query(`insert into dish(name, price, image_path, dough_type) values($1, $2, $3, $4)`, 
-                [data.name, data.price, req.file.filename, (data.dough_type=='on'?1:0)]);
-            const inserted_dish_id = (await db.query("select last_value from dish_id_seq")).rows[0].last_value;
+            const filename = req.body.filename !== undefined ? req.body.filename : req.file.filename;
+            const inserted_dish_id = (await db.query(`insert into dish(name, price, image_path, dough_type) values($1, $2, $3, $4) returning dish_id`, 
+                [data.name, data.price, filename, (data.dough_type=='on'?1:0)])).rows[0];
             const toppings_array = Object.keys(data);
             await toppings_array.forEach(async (element) => {
                 if (data[element] == 'on')
                     await db.query(`insert into dish_topping(topping_id, dish_id) values($1, $2)`, 
-                        [element, inserted_dish_id]);
+                        [element, inserted_dish_id.dish_id]);
             })
             res.json({result: 'Блюдо добавлено!'});
         }
@@ -208,8 +210,9 @@ module.exports = function(db) {
     app.post('/api/add_product', file_uploader.single('image'), async (req, res) => {
         try {
             const data = req.body;
+            const filename = req.body.filename !== undefined ? req.body.filename : req.file.filename;
             await db.query(`insert into product(name, price, image_path, description, type) values($1, $2, $3, $4, $5)`, 
-                [data.name, data.price, req.file.filename, data.description, data.type]);
+                [data.name, data.price, filename, data.description, data.type]);
             res.json({result: "Товар был добавлен!"});
         }
         catch (error) {
@@ -234,7 +237,7 @@ module.exports = function(db) {
     app.post('/api/change_interface_data', async (req, res) => {
         try {
             const interface_file_path = __dirname + '/interface-config.json';
-            fs.writeFileSync(interface_file_path, JSON.stringify(req.body));
+            //fs.writeFileSync(interface_file_path, JSON.stringify(req.body));
             res.json({result: "Данные интерфейса были изменены!"});
         }
         catch(error) {
@@ -245,7 +248,7 @@ module.exports = function(db) {
 
     app.post('/api/change_business_data', file_uploader.array('image'), async (req, res) => {
         try {
-            const data = req.body;
+            /*const data = req.body;
             let form_data = {};
             form_data['logo'] = req.files[0].filename;
             form_data['about_us'] = {
@@ -275,7 +278,7 @@ module.exports = function(db) {
                 });
             };
             const interface_file_path = __dirname + '/business-config.json';
-            fs.writeFileSync(interface_file_path, JSON.stringify(form_data));
+            fs.writeFileSync(interface_file_path, JSON.stringify(form_data));*/
             res.json({result: "Данные бизнеса были изменены!"});
         }
         catch(error) {

@@ -13,6 +13,7 @@ class ShoppingCartState {
     _outlet = -1;
     _dish_array = new Map();
     _product_array = new Map();
+    _custom_array = [];
     _price = 0;
     _ordered = false;
     _isstarted = false;
@@ -87,16 +88,12 @@ class ShoppingCartState {
         return this._price;
     }
 
-    set dish_array(value) {
-        this._dish_array = value;
-    }
-
     get dish_array() {
         return toJS(this._dish_array);
     }
 
-    set product_array(value) {
-        this._product_array = value;
+    get custom_array() {
+        return toJS(this._custom_array);
     }
 
     get product_array() {
@@ -131,6 +128,7 @@ class ShoppingCartState {
             this._outlet = storage_data.outlet;
             this._dish_array = new Map(Object.entries(storage_data.dish_array));
             this._product_array = new Map(Object.entries(storage_data.product_array));
+            this._custom_array = storage_data.custom_array;
             this._price = storage_data.price;
             this._ordered = storage_data.ordered;
             this._isstarted = storage_data.isstatred;
@@ -159,6 +157,7 @@ class ShoppingCartState {
         };
         json_data.dish_array = Object.fromEntries(this._dish_array);
         json_data.product_array = Object.fromEntries(this._product_array);
+        json_data.custom_array = toJS(this._custom_array);
         sessionStorage.setItem("shoppingCartState",JSON.stringify(json_data));
     }
 
@@ -168,8 +167,20 @@ class ShoppingCartState {
                 dish_id: dish_id,
                 count: count, 
                 size: size,
-                current_price: price
+                price: price
             });
+        this._price += price * count;
+    }
+
+    addCustomDishToCart(count, size, type, price, ingredient_array) {
+        const custom_object = {
+            count: count,
+            size: size,
+            type: type,
+            price: price,
+            ingredients: ingredient_array
+        };
+        this._custom_array.push(custom_object);
         this._price += price * count;
     }
 
@@ -177,43 +188,61 @@ class ShoppingCartState {
         this._product_array.set(id,             
             {
                 product_id: product_id,
-                count: count, 
+                count: count,
+                price: price
             });
         this._price += price * count;
     }
 
-    increaseCountOfDish(id, price) {
+    increaseCountOfDish(id) {
         if (this._dish_array.get(id).count < 6) {
             this._dish_array.get(id).count++;
-            this._price += price;
+            this._price += this._dish_array.get(id).price;
         }
     }
 
-    decreaseCountOfDish(id, price) {
+    decreaseCountOfDish(id) {
+        this._price -= this._dish_array.get(id).price;
         if (this._dish_array.get(id).count > 1) {
             this._dish_array.get(id).count--;
         }
         else if (this._dish_array.get(id).count == 1) {
             this._dish_array.delete(id);
         }
-        this._price -= price;
     }
 
-    increaseCountOfProduct(id, price) {
-        if (this._product_array.get(id).count < 20) {
-            this._product_array.get(id).count++;
-            this._price += price;
+    increaseCountOfCustom(id) {
+        if (this._custom_array[id].count < 6) {
+            this._custom_array[id].count++;
+            this._price += this._custom_array[id].price;
         }
     }
 
-    decreaseCountOfProduct(id, price) {
+    decreaseCountOfCustom(id) {
+        this._price -= this._custom_array[id].price;
+        if (this._custom_array[id].count > 1) {
+            this._custom_array[id].count--;
+        }
+        else if (this._custom_array[id].count == 1) {
+            this._custom_array[id] = null;
+        }
+    }
+
+    increaseCountOfProduct(id) {
+        if (this._product_array.get(id).count < 20) {
+            this._product_array.get(id).count++;
+            this._price += _product_array.get(id).price;
+        }
+    }
+
+    decreaseCountOfProduct(id) {
+        this._price -= _product_array.get(id).price;
         if (this._product_array.get(id).count > 1) {
             this._product_array.get(id).count--;
         }
         else if (this._product_array.get(id).count == 1) {
             this._product_array.delete(id);
         }
-        this._price -= price;
     }
 
     makeOrder() {
@@ -225,7 +254,7 @@ class ShoppingCartState {
                 dish_id: current.dish_id, 
                 size: current.size, 
                 count: current.count,
-                current_price: current.current_price
+                price: current.price
             };
         });
         const products_keys_array = Array.from(this._product_array.keys());
