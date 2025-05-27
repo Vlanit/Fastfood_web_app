@@ -49,6 +49,7 @@ const MenuPage = observer((props) => {
         <DishCard mini={false} id={index} name={item.name} description={item.description} image_path={item.image_path} 
             discount={item.discount} price={item.price} discount_end_date={item.discount_end_date} 
             count={shopping_cart_store.dish_array.get(index.toString())?.count}
+            type={'dish'}
             button_action={() => cardAction('dish', index, item)} can_interact={true}/>:null
         )
     );
@@ -60,6 +61,7 @@ const MenuPage = observer((props) => {
         <DishCard mini={false} id={index} name={item.name} description={item.description} image_path={item.image_path} 
             discount={item.discount} price={item.price} discount_end_date={item.discount_end_date} 
             count={shopping_cart_store.product_array.get(index.toString())?.count}
+            type={'product'}
             button_action={() => cardAction('product', index, item)} can_interact={true}/>:null
         )
     );

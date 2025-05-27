@@ -6,25 +6,34 @@ import { shopping_cart_store } from "../../state/ShoppingCartState";
 import { main_page_store } from "../../state/MainPageDataState";
 
 function DishCard(props) {
+    const size_array = ['Малая (25 см)', 'Средняя (30 см)', 'Большая (35 см)'];
+
     function minusAction() {
         switch(props.type) {
             case 'dish': 
                 shopping_cart_store.decreaseCountOfDish(props.id.toString());
+                return;
             case 'product':
                 shopping_cart_store.decreaseCountOfProduct(props.id.toString());
+                return;
             case 'custom':
                 shopping_cart_store.decreaseCountOfCustom(props.id);
+                return;
         }
     };
 
     function plusAction() {
+        console.log(props.type);
         switch(props.type) {
             case 'dish': 
                 shopping_cart_store.increaseCountOfDish(props.id.toString());
+                return;
             case 'product':
                 shopping_cart_store.increaseCountOfProduct(props.id.toString());
+                return;
             case 'custom':
                 shopping_cart_store.increaseCountOfCustom(props.id);
+                return;
         }
     };
 
@@ -32,6 +41,7 @@ function DishCard(props) {
 
     const buttonStyle = {...interface_styles.button, color: interface_colors.button_text_color, backgroundColor: interface_colors.button_color};
     const buttonHoverStyle = {...interface_styles.button, color: interface_colors.button_text_color_hover, backgroundColor: interface_colors.button_color_hover};
+    const image_size = interface_styles.dish_card_mini.width;
 
     return (
         <div style={{backgroundColor: interface_colors.card_background_color, ...baseStyle}}>
@@ -43,11 +53,12 @@ function DishCard(props) {
                 <img src={`http://localhost:3000/api/images/${props.image_path}`}/>
                 :
                 props.ingredients_list !== undefined?
-                        <div>
-                            <img style={{position: "absolute"}} src='http://localhost:3000/api/images/1745709455789image.png'/>
+                        <div style={{position: 'relative', width: image_size, height: image_size}}>
+                            <img style={{position: "absolute", bottom: 0, left: 0, width: image_size, height: image_size}} 
+                                src='http://localhost:3000/api/images/1745709455789image.png'/>
                             {props.ingredients_list.map(item => 
-                                <img style={{position: "absolute"}} 
-                                    src={`http://localhost:3000/api/images/${main_page_store[item].constructor_image}`}/>
+                                <img style={{position: "absolute", bottom: 0, left: 0, width: image_size, height: image_size}} 
+                                    src={`http://localhost:3000/api/images/${main_page_store.toppings[item].constructor_image}`}/>
                             )}
                         </div>
                     :null
@@ -60,7 +71,7 @@ function DishCard(props) {
                 <p style={{...interface_styles.p, ...interface_styles.bold}}>{`Дата окончания: ${props.discount_end_date}`}</p>
                 :null}
             {props.size !== undefined ? 
-                <p style={{...interface_styles.p, ...interface_styles.bold}}>{props.size}</p>
+                <p style={{...interface_styles.p, ...interface_styles.bold}}>{size_array[props.size]}</p>
             :null}
             <div style={interface_styles.flex_between}>
                 <p style={{...interface_styles.p, ...interface_styles.bold}}>

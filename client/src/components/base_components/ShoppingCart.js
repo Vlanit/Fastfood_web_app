@@ -19,6 +19,7 @@ const ShoppingCart = observer((props) => {
     const dishes_menu = main_page_store.dishes;
     const order_products = shopping_cart_store.product_array;
     const products_menu = main_page_store.products;
+    const order_custom = shopping_cart_store.custom_array;
 
     const buttonStyle = {...interface_styles.button, color: interface_colors.button_text_color, backgroundColor: interface_colors.button_color};
     const buttonHoverStyle = {...interface_styles.button, color: interface_colors.button_text_color_hover, backgroundColor: interface_colors.button_color_hover};
@@ -60,20 +61,36 @@ const ShoppingCart = observer((props) => {
                 <h2 style={{...interface_styles.h2, color: interface_colors.h2_color}}>Корзина</h2>
                 <div style={interface_styles.cart_items_div}>
                     <div style={interface_styles.cart_items_table}>
-                        {order_dishes.keys().map(item => (
-                            <DishCard mini={true} id={item} name={dishes_menu[item].name} 
-                            image_path={dishes_menu[item].image_path} discount={dishes_menu[item].discount} price={dishes_menu[item].price}
-                            type={'dish'} 
-                            count={order_dishes.get(item).count} size={size_array[order_dishes.get(item).size - 1]} 
-                            can_interact={!shopping_cart_store.isordered}/>
-                        ))}
-                        {order_products.keys().map(item => (
-                            <DishCard mini={true} id={item} name={products_menu[item].name} 
-                            image_path={products_menu[item].image_path} discount={products_menu[item].discount} price={products_menu[item].price}
-                            type={'product'} 
-                            count={order_products.get(item).count} 
-                            can_interact={!shopping_cart_store.isordered}/>
-                        ))}
+                        {
+                            order_dishes.keys().map(item => (
+                                <DishCard mini={true} id={item} name={dishes_menu[item].name} 
+                                image_path={dishes_menu[item].image_path} discount={dishes_menu[item].discount} price={dishes_menu[item].price}
+                                type={'dish'} 
+                                count={order_dishes.get(item).count} size={size_array[order_dishes.get(item).size - 1]} 
+                                can_interact={!shopping_cart_store.isordered}/>
+                            ))}
+                        {
+                            order_products.keys().map(item => (
+                                <DishCard mini={true} id={item} name={products_menu[item].name} 
+                                image_path={products_menu[item].image_path} discount={products_menu[item].discount} price={products_menu[item].price}
+                                type={'product'} 
+                                count={order_products.get(item).count} 
+                                can_interact={!shopping_cart_store.isordered}/>
+                            ))}
+                        {
+                            order_custom.map((item, index) => {
+                                if (item != null) {
+                                    return <DishCard mini={true} id={index} /*name={products_menu[item].name}*/
+                                        ingredients_list={item.ingredients} price={item.price}
+                                        type={'custom'} 
+                                        name = {'Собственная'}
+                                        count={item.count}
+                                        size ={item.size - 1}
+                                        description = {item.description}
+                                        can_interact={!shopping_cart_store.isordered}/>
+                                }
+                            })
+                        }
                     </div>
                 </div>
             </div>

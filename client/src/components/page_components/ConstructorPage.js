@@ -38,12 +38,16 @@ const ConstructorPage = observer((props) => {
 
     function AddDishProductToShoppingCart() {
         let ingredients_list = [];
+        let description = dough_type == 1 ? 'Стандартное тесто' : 'Пшеничное тесто';
+        const correct_price = Math.round(price + price * (size - 2) * 0.15);
         used_toppings.map((item, index) => {
             if (item) {
-                ingredients_list.push(main_page_store.toppings[index]);
+                ingredients_list.push(index);
+                description += ', '
+                description += main_page_store.toppings[index].name;
             }
         });
-        shopping_cart_store.addCustomDishToCart(count, size, dough_type, price, ingredients_list);
+        shopping_cart_store.addCustomDishToCart(count, size, dough_type, correct_price, description, ingredients_list);
     };
 
     function ClearConstructorData() {
@@ -134,7 +138,7 @@ const ConstructorPage = observer((props) => {
                 <Button text={"Начать заново"} main_style={{...button, ...interface_styles.large}}
                     hover_style={{...button_hover, ...interface_styles.large}}
                     onClick={() => ClearConstructorData()}/>
-                <h3>Стоимость: {Math.round(price + price * (size - 2) * 0.15)} ₽</h3>
+                <h3>Стоимость: {Math.round(price + price * (size - 2) * 0.15) * count} ₽</h3>
                 <Button text={"В корзину"} main_style={{...button, ...interface_styles.large}}
                     hover_style={{...button_hover, ...interface_styles.large}}
                     onClick={() => {AddDishProductToShoppingCart(); ClearConstructorData()}}/>

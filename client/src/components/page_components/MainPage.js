@@ -18,9 +18,6 @@ const MainPage = observer((props) => {
     const buttonHoverStyle = {...interface_styles.button, color: interface_colors.button_text_color_hover, backgroundColor: interface_colors.button_color_hover};
 
     let navigate = useNavigate(); 
-    const routeChange = (path) =>{ 
-        navigate(path);
-    }
 
     function cardAction(type, id, data) {
         props.darken(true);
@@ -47,7 +44,7 @@ const MainPage = observer((props) => {
                     </div>
                     <div style={interface_styles.action_card_list}>
                     <Button text={"Посмотреть все доступные акции"} main_style={{...buttonStyle, ...interface_styles.large}}
-                        hover_style={{...buttonHoverStyle, ...interface_styles.large}} onClick={() => routeChange('/actions')}/>
+                        hover_style={{...buttonHoverStyle, ...interface_styles.large}} onClick={() => navigate('/actions')}/>
                     </div>
                 </div>
             :null
@@ -114,7 +111,7 @@ const MainPage = observer((props) => {
             </div>
             <div style={interface_styles.action_card_list}>
                 <Button text={"Открыть полное меню"} main_style={{...buttonStyle, ...interface_styles.large}}
-                    hover_style={{...buttonHoverStyle, ...interface_styles.large}} onClick={() => routeChange('/menu')}/>
+                    hover_style={{...buttonHoverStyle, ...interface_styles.large}} onClick={() => navigate('/menu')}/>
             </div>
             <DishConstructorCard image_path={"Constructor.png"}/>
         </section>

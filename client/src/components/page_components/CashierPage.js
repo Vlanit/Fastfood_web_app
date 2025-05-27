@@ -39,9 +39,17 @@ const CashierPage = observer((props) => {
             <div style={interface_styles.order_contents}>
                 {orders.map((item, index) => {
                     if (!item.isfinished)
-                        return <CashierOrderCard first_action={() => user_data_store.changeOrderStatus(index)} second_action={() => {setOrder(index)}}
-                            id={item.order_id} name={item.name} surname={item.surname} delivery={item.delivery} address={item.delivery_address}
-                            datetime={item.order_datetime} first_button_name={getStateName(orders[index])} second_button_name={"Просмотр"}/>
+                        return <CashierOrderCard 
+                                first_action={() => user_data_store.changeOrderStatus(index)} 
+                                second_action={() => {setOrder(index)}}
+                                id={item.order_id} 
+                                name={item.name} 
+                                surname={item.surname} 
+                                delivery={item.delivery} 
+                                address={item.delivery_address}
+                                datetime={item.order_datetime}
+                                first_button_name={getStateName(orders[index])}
+                                second_button_name={"Просмотр"}/>
                 })}
             </div>
             <div style={{...interface_styles.order_contents, backgroundColor: interface_colors.secondary_background_color}}>
@@ -51,15 +59,38 @@ const CashierPage = observer((props) => {
                 <div style={interface_styles.cart_items_table}>
                     {orders[current_order] !== undefined ?
                     orders[current_order].dishes.map(item => (
-                        <DishCard mini={true} name={dishes_menu[item.id].name} image_path={dishes_menu[item.id].image_path} 
-                            description={dishes_menu[item.id].description} price={dishes_menu[item.id].price}
-                            count={item.count} size={size_array[item.size - 1]} can_interact={false}/>
+                        <DishCard 
+                            mini={true}
+                            name={dishes_menu[item.id].name}
+                            image_path={dishes_menu[item.id].image_path} 
+                            description={dishes_menu[item.id].description}
+                            price={item.price}
+                            count={item.count}
+                            size={item.size - 1}
+                            can_interact={false}/>
                     )):null}
                     {orders[current_order] !== undefined ?
                     orders[current_order].products.map(item => (
-                        <DishCard mini={true} name={products_menu[item.id].name} image_path={products_menu[item.id].image_path}
-                            description={products_menu[item.id].description} price={products_menu[item.id].price}
-                            count={item.count} can_interact={false}/>
+                        <DishCard
+                            mini={true}
+                            name={products_menu[item.id].name}
+                            image_path={products_menu[item.id].image_path}
+                            description={products_menu[item.id].description}
+                            price={item.price}
+                            count={item.count}
+                            can_interact={false}/>
+                    )):null}
+                    {orders[current_order] !== undefined ?
+                    orders[current_order].customs.map(item => (
+                        <DishCard 
+                            mini={true} 
+                            name={'Собственная'} 
+                            ingredients_list={item.ingredients}
+                            description={item.description} 
+                            price={item.price}
+                            size={item.size - 1}
+                            count={item.count} 
+                            can_interact={false}/>
                     )):null}
                 </div>
             </div>
