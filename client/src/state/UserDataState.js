@@ -164,6 +164,21 @@ class UserDataState {
             this.socket.emit('order_status_changed', order_status);
         }
     }
+
+    clear() {
+        this.error = false;
+        this.authorised = false;
+        this._user_id = -1;
+        this._name = '';
+        this._surname = '';
+        this._town='';
+        this._address='';
+        this._outlet=-1;
+        this._orders.clear();
+        this._coins = 0;
+        this._cashier = false;
+        this._admin = false;
+    }
 }
 
 export const user_data_store = new UserDataState();

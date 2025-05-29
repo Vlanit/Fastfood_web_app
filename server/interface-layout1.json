@@ -139,7 +139,9 @@
       "clients_options": {
         "display": "flex",
         "justifyContent": "space-between",
-        "width": "130px"
+        "width": "fit-content",
+        "alignItems": "center",
+        "gap": "30px"
       },
 
       "nav_button": {

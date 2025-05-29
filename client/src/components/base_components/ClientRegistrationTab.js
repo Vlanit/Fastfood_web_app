@@ -28,7 +28,7 @@ function ClientRegistrationTab(props) {
                             <option value={index}>{item.town}</option>
                         ))}
                 </select>
-                
+                <input style={input} type="text" name="address" placeholder="Адрес" maxLength={75}/>
                 <input style={input} type="text" name="login" placeholder="Логин" maxLength={20}/>
                 <input style={input} type="text" name="password" placeholder="Пароль" maxLength={30}/>
                 <Button text={"Зарегистрировать"} main_style={button} hover_style={button_hover}/>

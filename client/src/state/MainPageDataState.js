@@ -12,6 +12,23 @@ class MainPageDataState {
         makeAutoObservable(this);
     }
 
+    generateDescriptionForDishes() {
+        let toppings_indexes = new Map();
+        this._toppings.forEach((item, index) => {
+            toppings_indexes.set(item.topping_id, index);
+        });
+
+        this._dishes.forEach((element, index) => {
+            this._dishes[index].description = '';
+            element.toppings.map((topping, t_index) => {
+                this._dishes[index].description += this.toppings[toppings_indexes.get(topping)].name;
+                if (t_index != element.toppings.length - 1) {
+                    this._dishes[index].description += ', ';
+                }
+            })
+        });
+    }
+
     async renewAllData() {
         try {
             let data = (await instance.get('/full_data')).data;
@@ -22,6 +39,7 @@ class MainPageDataState {
                 this._products = data.other_products;
                 this._toppings = data.toppings;
                 this.error = false;
+                this.generateDescriptionForDishes();
             });
         }
         catch {
@@ -53,6 +71,7 @@ class MainPageDataState {
 
             runInAction(() => {
                 this._dishes = data;
+                this.generateDescriptionForDishes();
                 this.error = false;
             });
         }

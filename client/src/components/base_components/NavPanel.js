@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import Link from "./Link";
 import LinkImage from "./LinkImage";
-import { interface_colors, interface_styles } from "../../styles/ColorData";
+import { interface_colors, interface_styles, p } from "../../styles/ColorData";
 import { user_data_store } from "../../state/UserDataState";
 
 const NavPanel = observer((props) => {
@@ -28,9 +28,21 @@ const NavPanel = observer((props) => {
                 <LinkImage image_name={"ShoppingCart.svg"} main_style={interface_styles.nav_button} 
                     hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
                     onClick={() => {props.darken(true); props.shopping(true)}}/>
-                <LinkImage image_name={"Account.svg"} main_style={interface_styles.nav_button} 
-                    hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
-                    onClick={() => {props.darken(true); props.login(true)}}/>
+                { user_data_store.authorised ? 
+                        <div>
+                            <p style={p}>{user_data_store._name} {user_data_store._surname}</p>
+                            <p style={p}>{user_data_store._coins} бонусов</p>
+                        </div>:
+                    <LinkImage image_name={"Account.svg"} main_style={interface_styles.nav_button} 
+                        hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
+                        onClick={() => {props.darken(true); props.login(true)}}/>
+                }
+                { user_data_store.authorised ? 
+                    <Link contence={"Выйти"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                        hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}}
+                        onClick={() => user_data_store.clear()}/>:
+                    null
+                }
             </div>
         </div>
     );

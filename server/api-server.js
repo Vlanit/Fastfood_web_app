@@ -62,12 +62,8 @@ module.exports = function(db) {
 
     app.get('/api/dishes', async (req, res) => {
         try {
-            const list_of_dishes = await db.query("select dish_id, name, price, image_path, discount, to_char(discount_end_date, 'DD.MM.YYYY') as end_date, dough_type from dish order by dish_id;");
-            const list_of_dish_toppings = await db.query("select dish.dish_id, array_to_string( array_agg( distinct topping.name ), ', ' ) as description from dish inner join dish_topping on dish.dish_id=dish_topping.dish_id inner join topping on dish_topping.topping_id=topping.topping_id group by dish.dish_id");
-            const merge_data = list_of_dishes.rows.map((dish, index) => {
-                return { ...dish, description: list_of_dish_toppings.rows[index].description };
-            });
-            res.json(merge_data);
+            const list_of_dishes = await db.query("select dish.dish_id, name, price, image_path, discount, to_char(discount_end_date, 'DD.MM.YYYY') as end_date, dough_type, jsonb_agg (dish_topping.topping_id) AS toppings from public.dish inner join dish_topping on dish.dish_id = dish_topping.dish_id group by dish.dish_id");
+            res.json(list_of_dishes.rows);
         }
         catch (err) {
             console.log(err);
@@ -110,15 +106,11 @@ module.exports = function(db) {
 
     app.get('/api/full_data', async (req, res) => {
         try {
-            const list_of_dishes = await db.query("select dish_id, name, price, image_path, discount, to_char(discount_end_date, 'DD.MM.YYYY') as end_date, dough_type from dish order by dish_id;");
-            const list_of_dish_toppings = await db.query("select dish.dish_id, array_to_string( array_agg( distinct topping.name ), ', ' ) as description from dish inner join dish_topping on dish.dish_id=dish_topping.dish_id inner join topping on dish_topping.topping_id=topping.topping_id group by dish.dish_id");
-            const merge_data = list_of_dishes.rows.map((dish, index) => {
-                return { ...dish, description: list_of_dish_toppings.rows[index].description };
-            });
+            const list_of_dishes = await db.query("select dish.dish_id, name, price, image_path, discount, to_char(discount_end_date, 'DD.MM.YYYY') as end_date, dough_type, jsonb_agg (dish_topping.topping_id) AS toppings from public.dish inner join dish_topping on dish.dish_id = dish_topping.dish_id group by dish.dish_id");
             const list_of_products = await db.query("select * from product");
             const list_of_actions = await db.query("select * from action");
             const list_of_toppings = await db.query("select * from topping");
-            res.json({actions: list_of_actions.rows, dishes: merge_data, other_products: list_of_products.rows, toppings: list_of_toppings.rows});
+            res.json({actions: list_of_actions.rows, dishes: list_of_dishes.rows, other_products: list_of_products.rows, toppings: list_of_toppings.rows});
         }
         catch (err) {
             console.log(err);
@@ -331,15 +323,15 @@ module.exports = function(db) {
         }
     });
 
-    app.post('/api/register_new_client', async (req, res) => {
+    app.post('/api/register_new_client', file_uploader.single('image'), async (req, res) => {
         try {
-            const salt = await bcrypt.genSalt();
-            const hashed_password = await bcrypt.hash(req.body.password, salt);
             const data = req.body;
+            const salt = await bcrypt.genSalt();
+            const hashed_password = await bcrypt.hash(data.password, salt);
             const same_user_logins = await db.query(`select * from account where login = $1`, [data.login]);
             const same_cashier_logins = await db.query(`select * from cashier_account where login = $1`, [data.login]);
             if (same_user_logins.rows.length == 0 && same_cashier_logins.rows.length == 0 && data.login != process.env.ADMIN_ACCOUNT) {
-                await db.query(`insert into account(name, surname, coins, town, address, login, password) values($1, $2, $3, 0, $4, $5, $6, $7)`, [data.name, data.surname, data.town, data.address, data.login, hashed_password]);
+                await db.query(`insert into account(name, surname, town, coins, address, login, password) values($1, $2, $3, 0, $4, $5, $6)`, [data.name, data.surname, data.town, data.address, data.login, hashed_password]);
                 res.json({result: "Новый клиент зарегистрирован"});
             }
             else {
@@ -351,7 +343,7 @@ module.exports = function(db) {
         }
     });
 
-    app.post('/api/register_new_cashier', async (req, res) => {
+    app.post('/api/register_new_cashier', file_uploader.single('image'), async (req, res) => {
         try {
             const data = req.body;
             const salt = await bcrypt.genSalt();
