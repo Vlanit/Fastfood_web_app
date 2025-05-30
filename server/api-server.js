@@ -167,14 +167,12 @@ module.exports = function(db) {
     app.post('/api/add_topping', file_uploader.single('image'), async (req, res) => {
         try {
             const data = req.body;
-            console.log(req.body.filename);
             const filename = req.body.filename !== undefined ? req.body.filename : req.file.filename;
             await db.query(`insert into topping(name, type, price, image_path, ismeaty, isspicy) values($1, $2, $3, $4, $5, $6)`, 
                 [data.name, data.type, data.price, filename, (data.ismeaty=='on'?1:0), (data.isspicy=='on'?1:0)]);
             res.json({result: 'Ингредиент добавлен!'});
         }
         catch (error) {
-            console.error(error.stack);
             res.status(500).json({error:'Что-то пошло не так!'});
         }
     });
@@ -183,18 +181,23 @@ module.exports = function(db) {
         try {
             const data = req.body;
             const filename = req.body.filename !== undefined ? req.body.filename : req.file.filename;
-            const inserted_dish_id = (await db.query(`insert into dish(name, price, image_path, dough_type) values($1, $2, $3, $4) returning dish_id`, 
-                [data.name, data.price, filename, (data.dough_type=='on'?1:0)])).rows[0];
+            const inserted_dish = await db.query(`insert into dish(name, price, image_path, dough_type) values($1, $2, $3, $4) returning dish_id`, 
+                [data.name, data.price, filename, (data.dough_type=='on'?1:0)]);
+            const inserted_dish_id = inserted_dish.rows[0];
             const toppings_array = Object.keys(data);
             await toppings_array.forEach(async (element) => {
-                if (data[element] == 'on')
-                    await db.query(`insert into dish_topping(topping_id, dish_id) values($1, $2)`, 
-                        [element, inserted_dish_id.dish_id]);
+                try {
+                    if (data[element] == 'on')
+                        await db.query(`insert into dish_topping(topping_id, dish_id) values($1, $2)`, 
+                            [element, inserted_dish_id.dish_id]);
+                }
+                catch (error) {
+                    res.status(500).json({error:'Что-то пошло не так!'});
+                }
             })
             res.json({result: 'Блюдо добавлено!'});
         }
         catch (error) {
-            console.error(error.stack);
             res.status(500).json({error:'Что-то пошло не так!'});
         }
     });
@@ -208,7 +211,6 @@ module.exports = function(db) {
             res.json({result: "Товар был добавлен!"});
         }
         catch (error) {
-            console.error(error.stack);
             res.status(500).json({error:'Что-то пошло не так!'});
         }
     });
@@ -221,7 +223,6 @@ module.exports = function(db) {
             res.json({result: "Заведение было добавлено"});
         }
         catch(error) {
-            console.error(error.stack);
             res.status(500).json({error:'Что-то пошло не так!'});
         }
     });
@@ -233,7 +234,6 @@ module.exports = function(db) {
             res.json({result: "Данные интерфейса были изменены!"});
         }
         catch(error) {
-            console.error(error.stack);
             res.status(500).json({error:'Что-то пошло не так!'});
         }
     });
@@ -274,7 +274,6 @@ module.exports = function(db) {
             res.json({result: "Данные бизнеса были изменены!"});
         }
         catch(error) {
-            console.error(error.stack);
             res.status(500).json({error:'Что-то пошло не так!'});
         }
     });
