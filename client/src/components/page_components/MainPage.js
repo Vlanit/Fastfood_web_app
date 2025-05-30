@@ -18,7 +18,6 @@ const MainPage = observer((props) => {
     const buttonHoverStyle = {...interface_styles.button, color: interface_colors.button_text_color_hover, backgroundColor: interface_colors.button_color_hover};
 
     let navigate = useNavigate(); 
-    console.log(main_page_store.dishes);
 
     function cardAction(type, id, data) {
         props.darken(true);

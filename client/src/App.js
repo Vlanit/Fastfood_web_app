@@ -8,6 +8,7 @@ import DishProductWindow from './components/base_components/DishProductWindow.js
 import LoginTab from './components/base_components/LoginTab.js';
 import ClientRegistrationTab from './components/base_components/ClientRegistrationTab.js';
 import ShoppingCart from './components/base_components/ShoppingCart.js';
+import OrderHistory from './components/base_components/OrderHistory.js';
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainPage from './components/page_components/MainPage.js';
@@ -29,6 +30,7 @@ const App = observer((props) => {
   const [is_info_card_open, setInfoCard] = useState(false);
   const [info_card_data, setInfo] = useState({id: -1, name: '', image_path: '', description: '', price: 0, dish: false, product: false});
   const [is_shopping_cart_open, setShoppingCart] = useState(false);
+  const [is_order_history_open, setOrderHistory] = useState(false);
   const [is_login_open, setLogin] = useState(false);
   const [is_register_open, setRegister] = useState(false);
 
@@ -49,7 +51,7 @@ const App = observer((props) => {
     <div style={{...interface_styles.body, backgroundColor: interface_colors.background_color, color: interface_colors.text_color, width: current_width}}>
       <div style={is_page_darkened?interface_styles.darkened:null}>
         <Header></Header>
-        <NavPanel shopping={setShoppingCart} login={setLogin} darken={setDark}></NavPanel>
+        <NavPanel shopping={setShoppingCart} history={setOrderHistory} login={setLogin} darken={setDark}></NavPanel>
         <Routes>
           <Route path='/' element={<MainPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/actions' element={<ActionPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
@@ -83,6 +85,10 @@ const App = observer((props) => {
       {is_register_open?
         <ClientRegistrationTab exit_action={() => {setRegister(false); setDark(false)}}/>
         :null}
+      {is_order_history_open?
+        <OrderHistory exit_action={() => {setOrderHistory(false); setDark(false)}}/>
+        :null
+      }
     </div>
   );
 });

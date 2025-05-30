@@ -39,6 +39,18 @@ class UserDataState {
         return this._admin;
     }
 
+    get user_id() {
+        return this._user_id;
+    }
+
+    set coins(value) {
+        this._coins = value;
+    }
+
+    get coins() {
+        return this._coins;
+    }
+
     getDataFromSessionStorage() {
         const storage_data = JSON.parse(sessionStorage.getItem("UserDataState"));
         if (storage_data) {
@@ -113,8 +125,11 @@ class UserDataState {
                         this.socket.emit('join_room', this._outlet);
                     }
                     else {
+                        this._user_id = data.user_data.account_id;
                         this._town = data.user_data.town;
                         this._address = data.user_data.address;
+                        this._coins = data.user_data.coins;
+                        this._orders = data.orders;
                     }
                     this.authorised = true;
                 }

@@ -310,7 +310,15 @@ module.exports = function(db) {
                 else {
                     const compare_data = await bcrypt.compare(req.query.password, user_data.rows[0].password);
                     if (compare_data) {
-                        res.json({ error: false, user_data: user_data.rows[0]});
+                        const user_orders_data = await db.query(`select customer_order.*, 
+                            jsonb_agg(json_build_object('id', dish_order.dish_id, 'count', dish_order.count, 'size', dish_order.size)) as dishes, 
+                            jsonb_agg(json_build_object('id', product_order.product_id, 'count', product_order.count)) as products
+                            from customer_order
+                            left join product_order on customer_order.order_id = product_order.order_id
+                            left join dish_order on customer_order.order_id = dish_order.order_id
+                            where customer_order.account_id = $1
+                            group by customer_order.order_id`, [user_data.rows[0].account_id]);
+                        res.json({ error: false, user_data: user_data.rows[0], orders: user_orders_data.rows});
                     }
                     else {
                         res.json({error: true, result: "Не верный логин"});
@@ -337,6 +345,18 @@ module.exports = function(db) {
             else {
                 res.json({result: "Данный логин уже используется"});
             }
+        }
+        catch {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
+    app.post('/api/reduce_coins_for_account', async (req, res) => {
+        try {
+            const data = req.body;
+            await db.query(`update account set coins=$1 where account_id=$2`, 
+                [data.new_coins, data.account_id]);
+            res.json({result: "Количество баллов лояльности успешно уменьшено!"});
         }
         catch {
             res.status(500).json({error:'Что-то пошло не так!'});

@@ -6,23 +6,20 @@ import DishCard from './DishCard';
 import Button from './Button';
 import LinkImage from './LinkImage';
 
-import { interface_styles, interface_colors } from '../../styles/ColorData';
+import { interface_styles, interface_colors, button, button_hover } from '../../styles/ColorData';
 
 import { main_page_store } from '../../state/MainPageDataState';
 import { shopping_cart_store } from '../../state/ShoppingCartState';
 import { franchise_data_store } from '../../state/FranchiseDataState';
+import { user_data_store } from '../../state/UserDataState';
 
 const ShoppingCart = observer((props) => {
-    console.log(shopping_cart_store.dishes, shopping_cart_store.products);
     const size_array = ['Малая (25 см)', 'Средняя (30 см)', 'Большая (35 см)'];
     const order_dishes = shopping_cart_store.dish_array;
     const dishes_menu = main_page_store.dishes;
     const order_products = shopping_cart_store.product_array;
     const products_menu = main_page_store.products;
     const order_custom = shopping_cart_store.custom_array;
-
-    const buttonStyle = {...interface_styles.button, color: interface_colors.button_text_color, backgroundColor: interface_colors.button_color};
-    const buttonHoverStyle = {...interface_styles.button, color: interface_colors.button_text_color_hover, backgroundColor: interface_colors.button_color_hover};
 
     if (shopping_cart_store.town == "") {
         shopping_cart_store.town = franchise_data_store.towns[0].town;
@@ -35,6 +32,17 @@ const ShoppingCart = observer((props) => {
 
     const insertOrder = async () => {
         shopping_cart_store.makeOrder();
+    };
+
+    const payWithCoins = async () => {
+        if (user_data_store.coins >= shopping_cart_store.price) {
+            user_data_store.coins -= shopping_cart_store.price;
+            await instance.post('/reduce_coins_for_account', {new_coins: user_data_store.coins, account_id: user_data_store.user_id}).
+            then(shopping_cart_store.makeOrder());
+        }
+        else {
+            alert('У вас недостаточно монет лояльности!');
+        }
     };
 
     const getStateName = () => {
@@ -168,7 +176,7 @@ const ShoppingCart = observer((props) => {
                         <p style={{...interface_styles.p, ...interface_styles.bold}}>{`Состояние: ${getStateName()}`}</p>
                     </div>:
                     <div style={interface_styles.flex_between}>
-                        <Button text={"Оплатить баллами"} main_style={buttonStyle} hover_style={buttonHoverStyle}/>
+                        <Button text={"Оплатить баллами"} main_style={button} hover_style={button_hover} onClick={() => payWithCoins()}/>
                         <p style={{...interface_styles.p, ...interface_styles.bold}}>{`Цена: ${shopping_cart_store.price} ₽`}</p>
                         <form action="https://yookassa.ru/integration/simplepay/payment" method="post" accept-charset="utf-8">
                             <input disabled="" type="hidden" name="paymentSubjectType" value="service"/>
@@ -180,7 +188,7 @@ const ShoppingCart = observer((props) => {
                             <input disabled="" type="hidden" name="shopId" value={"1078773"}/>
                             <input disabled="" type="hidden" name="shopSuccessURL" value={"http://localhost:3001/success"} />
                             <input disabled="" type="hidden" name="shopFailURL" value={"http://localhost:3001/error"}/>
-                            <Button text={"Перейти к оплате"} main_style={buttonStyle} hover_style={buttonHoverStyle}/>
+                            <Button text={"Перейти к оплате"} main_style={button} hover_style={button_hover}/>
                         </form>
                     </div>
                     }

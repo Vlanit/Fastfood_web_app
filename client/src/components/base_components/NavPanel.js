@@ -6,6 +6,7 @@ import { interface_colors, interface_styles, p } from "../../styles/ColorData";
 import { user_data_store } from "../../state/UserDataState";
 
 const NavPanel = observer((props) => {
+    console.log(user_data_store.orders);
     return (
         <div style={{...interface_styles.nav_panel, backgroundColor: interface_colors.secondary_background_color}}>
             <div style={interface_styles.header_nav_items}>
@@ -29,9 +30,15 @@ const NavPanel = observer((props) => {
                     hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
                     onClick={() => {props.darken(true); props.shopping(true)}}/>
                 { user_data_store.authorised ? 
+                    <LinkImage image_name={"Account.svg"} main_style={interface_styles.nav_button} 
+                        hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
+                        onClick={() => {props.darken(true); props.history(true)}}/>:
+                    null
+                }
+                { user_data_store.authorised ? 
                         <div>
                             <p style={p}>{user_data_store._name} {user_data_store._surname}</p>
-                            <p style={p}>{user_data_store._coins} бонусов</p>
+                            <p style={p}>{user_data_store.coins} бонусов</p>
                         </div>:
                     <LinkImage image_name={"Account.svg"} main_style={interface_styles.nav_button} 
                         hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
