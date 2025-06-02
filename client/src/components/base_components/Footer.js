@@ -9,7 +9,7 @@ import { franchise_data_store } from "../../state/FranchiseDataState";
 const Footer = observer((props) => {
     return (
         <div style={{...interface_styles.footer, backgroundColor: interface_colors.secondary_background_color}}>
-            <img style={interface_styles.footer_img} src={`http://localhost:3000/api/images/${franchise_data_store.logo}`}/>
+            <img style={interface_styles.footer_img} src={`/api/images/${franchise_data_store.logo}`}/>
             <div>
                 <div style={interface_styles.footer_nav}>
                     <div style={interface_styles.footer_nav_items}>

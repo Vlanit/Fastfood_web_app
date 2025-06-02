@@ -7,21 +7,7 @@ function BusinessCustomizationTab(props) {
     const [number_facts_count, setNumberFacts] = useState(0);
 
     const changeBusinessData = async (formData) => {
-        let post_data = {};
-        for (var [key, value] of formData.entries()) { 
-            if (key != "image")
-                post_data[key] = value;
-            else {
-                if (post_data[key] === undefined) {
-                    post_data[key] = [];
-                }
-                post_data[key].push(value);
-            }
-        }
-        await instance.post('/change_business_data', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }}).then((response) => {
+        await instance.post('/change_business_data', formData).then((response) => {
             alert(response.data.result);
         })
     };

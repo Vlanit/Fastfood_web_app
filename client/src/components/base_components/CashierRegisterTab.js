@@ -7,7 +7,7 @@ function CashierRegisterTab(props) {
     const outlet_list = franchise_data_store.outlets;
 
     const registerCashier = async (formData) => {
-        await instance.post('/register_new_cashier', formData).then((response) => {
+        await instance.post('/register_new_worker', formData).then((response) => {
             alert(response.data);
         })
     };

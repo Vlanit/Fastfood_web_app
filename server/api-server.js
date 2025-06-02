@@ -21,8 +21,8 @@ module.exports = function(db) {
     const app = express();
     app.use(express.json());
     app.use(cors({
-        origin: ['http://localhost:3001'],
-        credentials: true
+        origin: '*'/*,
+        credentials: true*/
     }));
     app.use('/api/images', express.static('files/images'));
     app.use(session_app);
@@ -164,6 +164,35 @@ module.exports = function(db) {
         res.json({colors: interface_file_json, styles: design_layout_json});
     });
 
+    app.post('/api/add_action', file_uploader.single('image'), async (req, res) => {
+        try {
+            const data = req.body;
+            const filename = req.body.filename !== undefined ? req.body.filename : req.file.filename;
+            await db.query(`insert into action(name, image_path, description, action_end_date) values($1, $2, $3, $4)`, 
+                [data.name, filename, data.description, data.date]);
+            res.json({result: 'Акция добавлена!'});
+        }
+        catch (error) {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
+    app.delete('/api/delete_action', async (req, res) => {
+        try {
+            const data = req.body;
+            if (data.filename !== undefined) {
+                const file_path = __dirname + '/files/images' + data.filename;
+                fs.unlink(data.filename);
+            }
+            await db.query(`delete from action where action_id=$1`, 
+                [data.id]);
+            res.json({result: 'Акция добавлена!'});
+        }
+        catch (error) {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
     app.post('/api/add_topping', file_uploader.single('image'), async (req, res) => {
         try {
             const data = req.body;
@@ -171,6 +200,22 @@ module.exports = function(db) {
             await db.query(`insert into topping(name, type, price, image_path, ismeaty, isspicy) values($1, $2, $3, $4, $5, $6)`, 
                 [data.name, data.type, data.price, filename, (data.ismeaty=='on'?1:0), (data.isspicy=='on'?1:0)]);
             res.json({result: 'Ингредиент добавлен!'});
+        }
+        catch (error) {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
+    app.delete('/api/delete_topping', async (req, res) => {
+        try {
+            const data = req.body;
+            if (data.filename !== undefined) {
+                const file_path = __dirname + '/files/images' + data.filename;
+                fs.unlink(data.filename);
+            }
+            await db.query(`delete from topping where topping_id=$1`, 
+                [data.id]);
+            res.json({result: 'Ингредиент успешно удален!'});
         }
         catch (error) {
             res.status(500).json({error:'Что-то пошло не так!'});
@@ -202,6 +247,22 @@ module.exports = function(db) {
         }
     });
 
+    app.delete('/api/delete_dish', async (req, res) => {
+        try {
+            const data = req.body;
+            if (data.filename !== undefined) {
+                const file_path = __dirname + '/files/images' + data.filename;
+                fs.unlink(data.filename);
+            }
+            await db.query(`delete from dish where dish_id=$1`, 
+                [data.id]);
+            res.json({result: 'Блюдо успешно удалено!'});
+        }
+        catch (error) {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
     app.post('/api/add_product', file_uploader.single('image'), async (req, res) => {
         try {
             const data = req.body;
@@ -209,6 +270,22 @@ module.exports = function(db) {
             await db.query(`insert into product(name, price, image_path, description, type) values($1, $2, $3, $4, $5)`, 
                 [data.name, data.price, filename, data.description, data.type]);
             res.json({result: "Товар был добавлен!"});
+        }
+        catch (error) {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
+    app.delete('/api/delete_product', async (req, res) => {
+        try {
+            const data = req.body;
+            if (data.filename !== undefined) {
+                const file_path = __dirname + '/files/images' + data.filename;
+                fs.unlink(data.filename);
+            }
+            await db.query(`delete from product where product_id=$1`, 
+                [data.id]);
+            res.json({result: 'Позиция меню успешно удалена!'});
         }
         catch (error) {
             res.status(500).json({error:'Что-то пошло не так!'});
@@ -227,10 +304,22 @@ module.exports = function(db) {
         }
     });
 
+    app.delete('/api/delete_oultet', async (req, res) => {
+        try {
+            const data = req.body;
+            await db.query(`delete from outlet where outlet_id = $1`, 
+                [data.id]);
+            res.json({result: "Заведение было добавлено"});
+        }
+        catch(error) {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
     app.post('/api/change_interface_data', async (req, res) => {
         try {
             const interface_file_path = __dirname + '/interface-config.json';
-            //fs.writeFileSync(interface_file_path, JSON.stringify(req.body));
+            fs.writeFileSync(interface_file_path, JSON.stringify(req.body));
             res.json({result: "Данные интерфейса были изменены!"});
         }
         catch(error) {
@@ -240,7 +329,7 @@ module.exports = function(db) {
 
     app.post('/api/change_business_data', file_uploader.array('image'), async (req, res) => {
         try {
-            /*const data = req.body;
+            const data = req.body;
             let form_data = {};
             form_data['logo'] = req.files[0].filename;
             form_data['about_us'] = {
@@ -270,7 +359,7 @@ module.exports = function(db) {
                 });
             };
             const interface_file_path = __dirname + '/business-config.json';
-            fs.writeFileSync(interface_file_path, JSON.stringify(form_data));*/
+            fs.writeFileSync(interface_file_path, JSON.stringify(form_data));
             res.json({result: "Данные бизнеса были изменены!"});
         }
         catch(error) {
@@ -362,7 +451,17 @@ module.exports = function(db) {
         }
     });
 
-    app.post('/api/register_new_cashier', file_uploader.single('image'), async (req, res) => {
+    app.get('/api/workers', async (req, res) => {
+        try {
+            const worker_list = await db.query('select * from cashier_account');
+            res.json(worker_list);
+        }
+        catch {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
+    app.post('/api/register_new_worker', file_uploader.single('image'), async (req, res) => {
         try {
             const data = req.body;
             const salt = await bcrypt.genSalt();
@@ -382,6 +481,34 @@ module.exports = function(db) {
             res.status(500).json({error:'Что-то пошло не так!'});
         }
     });
+
+    app.post('/api/change_worker_data', file_uploader.single('image'), async (req, res) => {
+        try {
+            const data = req.body;
+            const salt = await bcrypt.genSalt();
+            const hashed_password = await bcrypt.hash(data.password, salt);
+            await db.query(`update cashier_account set (name, surname, outlet_id, password) values($1, $2, $3, $5) where cashier_id=$6`, 
+                [data.name, data.surname, data.outlet, hashed_password, data.id]);
+            res.json({result: "Данные кассира успешно изменены!"});
+        }
+        catch {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
+    app.delete('/api/delete_worker_data', async (req, res) => {
+        try {
+            const data = req.body;
+            await db.query(`delete from cashier_account where cashier_id=$1`, 
+                [data.id]);
+            res.json({result: "Кассир был успешно удален!"});
+        }
+        catch {
+            res.status(500).json({error:'Что-то пошло не так!'});
+        }
+    });
+
+
 
     return app;
 };

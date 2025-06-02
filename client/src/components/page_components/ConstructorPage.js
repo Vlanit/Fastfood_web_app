@@ -88,13 +88,13 @@ const ConstructorPage = observer((props) => {
                             type="number" name="count" defaultValue={0} min={1} max={6}/>
                     </div>
                     <div style={{width: "589px", height: "589px", marginTop: "20px"}}>
-                        <img style={{position: "absolute", width: "589px", height: "589px"}} src='http://localhost:3000/api/images/1745709455789image.png'/>
+                        <img style={{position: "absolute", width: "589px", height: "589px"}} src='/api/images/1745709455789image.png'/>
                         {main_page_store.toppings !== undefined? 
                                 main_page_store.toppings.map((item, index) => 
                                 {
                                     if (used_toppings[index])
                                         return <img style={{position: "absolute", width: "589px", height: "589px"}} 
-                                            src={`http://localhost:3000/api/images/${item.constructor_image}`}/>
+                                            src={`/api/images/${item.constructor_image}`}/>
                                 }):
                             null}
                     </div>

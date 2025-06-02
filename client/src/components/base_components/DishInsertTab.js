@@ -28,7 +28,7 @@ function DishInsertTab(props) {
                     {props.toppings !== undefined? topping_list.map(item => 
                     (
                         <div>
-                            <img src={`http://localhost:3000/api/images/${item.image_path}`}></img>
+                            <img src={`/api/images/${item.image_path}`}></img>
                             <input type="checkbox" name={item.topping_id}/>
                         </div>
                     )):<></>}

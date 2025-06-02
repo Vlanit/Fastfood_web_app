@@ -4,7 +4,7 @@ function DishCard(props) {
             <div class="discount">
                 <p>{props.discount}</p>
             </div>
-            <img src={`http://localhost:3000/api/images/${props.image_path}`}/>
+            <img src={`/api/images/${props.image_path}`}/>
             <h3>{props.name}</h3>
             <p class="description">{props.description}</p>
             <p class={props.discount_end_date!=null?"bold":""}>{`Дата окончания: ${props.discount_end_date}`}</p>

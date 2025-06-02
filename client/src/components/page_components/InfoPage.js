@@ -10,7 +10,7 @@ const InfoPage = observer((props) => {
         <div style={interface_styles.section}>
             <h1 style={h1}>О нас</h1>
             <div style={{...interface_styles.info_card, backgroundColor: interface_colors.card_background_color}}>
-                <img src={`http://localhost:3000/api/images/${franchise_data_store.about_us?.image}`}/>
+                <img src={`/api/images/${franchise_data_store.about_us?.image}`}/>
                 <div style={interface_styles.info_card_text}>
                     <h2 style={h2}>{franchise_data_store.about_us.title}</h2>
                     <p style={p}>{franchise_data_store.about_us.text}</p>
@@ -21,11 +21,11 @@ const InfoPage = observer((props) => {
                     <h2 style={h2}>{franchise_data_store.about_production.title}</h2>
                     <p style={p}>{franchise_data_store.about_production.text}</p>
                 </div>
-                <img src={`http://localhost:3000/api/images/${franchise_data_store.about_production?.image}`}/>
+                <img src={`/api/images/${franchise_data_store.about_production?.image}`}/>
             </div>
             <h1 style={h1}>Заведение "в цифрах"</h1>
             <div style={{...interface_styles.info_card, backgroundColor: interface_colors.card_background_color}}>
-                <img src={`http://localhost:3000/api/images/${franchise_data_store.fact_info?.image}`}/>
+                <img src={`/api/images/${franchise_data_store.fact_info?.image}`}/>
                 <div style={interface_styles.info_card_table}>
                     {franchise_data_store.fact_info?.array?.map((item) => (
                         <div>
@@ -45,7 +45,7 @@ const InfoPage = observer((props) => {
                     <p style={{...p, ...interface_styles.bold}}>Электронная почта: </p>
                     <p style={{...p, ...interface_styles.bold}}>{franchise_data_store.contact_info?.email}</p>
                 </div>
-                <img src={`http://localhost:3000/api/images/${franchise_data_store.contact_info?.image}`}/>
+                <img src={`/api/images/${franchise_data_store.contact_info?.image}`}/>
             </div>
             <h1 style={h1}>Наши заведения</h1>
             <div style={{...interface_styles.dish_card_list, ...interface_styles.card_grid_three}}>
@@ -53,7 +53,7 @@ const InfoPage = observer((props) => {
                     <div style={{...interface_styles.dish_card, backgroundColor: interface_colors.card_background_color}}>
                         <p style={{...p, ...interface_styles.bold}}>{`${item.town} (${item.district})`}</p>
                         <div style={interface_styles.outlet_address}>
-                            <img src={`http://localhost:3000/api/images/AddressIcon.svg`}/>
+                            <img src={`/api/images/AddressIcon.svg`}/>
                             <p style={{...p, ...interface_styles.bold}}>{item.address}</p>
                         </div>
                     </div>

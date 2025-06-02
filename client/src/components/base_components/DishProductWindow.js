@@ -38,7 +38,7 @@ function DishProductWindow(props) {
         <div style={{...interface_styles.dish_info_card, ...interface_styles.modal_window, backgroundColor: interface_colors.card_background_color}}>
             <div style={interface_styles.dish_part}>
                 <h1 style={interface_styles.h1}>{props.name}</h1>
-                <img src={`http://localhost:3000/api/images/${props.image_path}`}/>
+                <img src={`/api/images/${props.image_path}`}/>
             </div>
             <div style={{...interface_styles.description_part, backgroundColor: interface_colors.secondary_background_color}}>
                 <div style={interface_styles.description_part_table}>

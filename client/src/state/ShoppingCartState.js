@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction, toJS } from "mobx";
+import { main_page_store } from '../state/MainPageDataState';
 import instance from "../api/server_api";
 import { io } from 'socket.io-client';
 
@@ -268,6 +269,7 @@ class ShoppingCartState {
                 count: current.count
             };
         });
+
         const order_object = {
             name: this._name,
             surname: this._surname,

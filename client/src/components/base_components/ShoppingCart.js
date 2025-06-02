@@ -35,14 +35,15 @@ const ShoppingCart = observer((props) => {
     };
 
     const payWithCoins = async () => {
-        if (user_data_store.coins >= shopping_cart_store.price) {
+        shopping_cart_store.makeOrder();
+        /*if (user_data_store.coins >= shopping_cart_store.price) {
             user_data_store.coins -= shopping_cart_store.price;
             await instance.post('/reduce_coins_for_account', {new_coins: user_data_store.coins, account_id: user_data_store.user_id}).
             then(shopping_cart_store.makeOrder());
         }
         else {
             alert('У вас недостаточно монет лояльности!');
-        }
+        }*/
     };
 
     const getStateName = () => {

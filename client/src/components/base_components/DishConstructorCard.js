@@ -11,7 +11,7 @@ function PizzaConstructorCard(props) {
 
     return (
         <div style={{...interface_styles.dish_constructor_card, 
-            backgroundImage: `url(http://localhost:3000/api/images/${props.image_path})`}}>
+            backgroundImage: `url(/api/images/${props.image_path})`}}>
             <p style={interface_styles.p}>Не смогли найти пиццу по вкусу?</p>
             <p style={interface_styles.p}>Не беда! Попробуйте создать её сами!</p>
             <Button text={"Попробовать!"} main_style={{...buttonStyle, ...interface_styles.large}}

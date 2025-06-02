@@ -7,7 +7,7 @@ function Topping(props) {
 
     return (
         <div style={{textAlign: "center", display: "flex", flexDirection: "column", width: "96px", alignItems: "center"}}>
-            <img src={`http://localhost:3000/api/images/${props.image_path}`}></img>
+            <img src={`/api/images/${props.image_path}`}></img>
             <p style={p}>{props.name}</p>
             <div style={{...interface_styles.change_num, ...interface_styles.flex_between, 
                 backgroundColor: interface_colors.secondary_background_color,

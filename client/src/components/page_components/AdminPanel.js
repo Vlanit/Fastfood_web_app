@@ -37,6 +37,12 @@ function AdminPanel(prosp) {
                 <div style={interface_styles.sidebar}>
                     <Link contence={"Бизнес"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
                         hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(1)}/>
+                        {current_tab >= 3 && current_tab < 4 ? <div style={interface_styles.sidebar}>
+                        <Link contence={"О нас"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                            hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(1.1)}/>
+                        <Link contence={"Заведения"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                            hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(1.2)}/>
+                    </div>:null}
                     <Link contence={"Работники"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
                         hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(2)}/>
                     <Link contence={"Меню"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
@@ -50,6 +56,14 @@ function AdminPanel(prosp) {
                             hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.3)}/>
                     </div>:null}
                     <Link contence={"Интерфейс"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                        hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(4)}/>
+                </div>
+                <div style={interface_styles.sidebar}>
+                    <Link contence={"Добавить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                        hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(2)}/>
+                    <Link contence={"Изменить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                        hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3)}/>
+                    <Link contence={"Удалить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
                         hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(4)}/>
                 </div>
                 <div>

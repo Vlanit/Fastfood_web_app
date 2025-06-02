@@ -50,15 +50,15 @@ function DishCard(props) {
                 <p style={{...interface_styles.p, color: interface_colors.secondary_text_color}}>{`-${props.discount}%`}</p>
             </div>: null}
             {props.image_path !== undefined?
-                <img src={`http://localhost:3000/api/images/${props.image_path}`}/>
+                <img src={`/api/images/${props.image_path}`}/>
                 :
                 props.ingredients_list !== undefined?
                         <div style={{position: 'relative', width: image_size, height: image_size}}>
                             <img style={{position: "absolute", bottom: 0, left: 0, width: image_size, height: image_size}} 
-                                src='http://localhost:3000/api/images/1745709455789image.png'/>
+                                src='/api/images/1745709455789image.png'/>
                             {props.ingredients_list.map(item => 
                                 <img style={{position: "absolute", bottom: 0, left: 0, width: image_size, height: image_size}} 
-                                    src={`http://localhost:3000/api/images/${main_page_store.toppings[item].constructor_image}`}/>
+                                    src={`/api/images/${main_page_store.toppings[item].constructor_image}`}/>
                             )}
                         </div>
                     :null
