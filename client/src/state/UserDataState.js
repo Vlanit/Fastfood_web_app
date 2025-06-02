@@ -69,8 +69,8 @@ class UserDataState {
 
         console.log(storage_data);
 
-        if (this._cashier) {
-            this.socket = io('http://localhost:3000');
+        if (this._cashier && this.socket === undefined) {
+            this.socket = io('/', {path: '/socket'});
             this.socket.on('new_order', (order_data) => {
                 runInAction(() => {
                     this._orders.push(order_data);
@@ -112,10 +112,10 @@ class UserDataState {
                 else {
                     this._name = data.user_data.name;
                     this._surname = data.user_data.surname;
-                    if (data.cashier) {
+                    if (data.cashier && this.socket === undefined) {
                         this._cashier = data.cashier;
                         this._outlet = data.user_data.outlet_id;
-                        this.socket = io('http://localhost:3000');
+                        this.socket = io('/', {path: '/socket'});
                         this.socket.on('new_order', (order_data) => {
                             runInAction(() => {
                                 this._orders.push(order_data);

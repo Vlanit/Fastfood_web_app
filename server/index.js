@@ -11,7 +11,7 @@ server.listen(port, () => {
     console.log(`Server is now running on port ${port}`);
 });
 
-const socket_server = socket_io(server, {cors:{origin:'*',}});
+const socket_server = socket_io(server, {cors:{origin:'*',}, path: '/socket'});
 //socket_server.engine.use(session_app);
 
 socket_server.on('connection', (socket) => {
@@ -44,7 +44,7 @@ socket_server.on('connection', (socket) => {
                 await client_pool.query(`insert into dish_order(
                     dish_id, order_id, size, count, current_price)
                     values ($1, $2, $3, $4, $5);`, 
-                    [element.dish_id, last_order_id, element.size, element.count, element.current_price]);
+                    [element.dish_id, last_order_id, element.size, element.count, element.price]);
         });
 
         await order_data.products?.forEach(async (element) => {

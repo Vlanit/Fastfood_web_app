@@ -1,6 +1,6 @@
 import instance from '../../api/server_api';
 import { useState } from 'react';
-import { interface_styles, button, button_hover } from '../../styles/ColorData';
+import { interface_styles, interface_colors, button, button_hover } from '../../styles/ColorData';
 import Button from "./Button";
 import { franchise_data_store } from '../../state/FranchiseDataState';
 

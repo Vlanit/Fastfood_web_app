@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction, toJS } from "mobx";
-import { main_page_store } from '../state/MainPageDataState';
 import instance from "../api/server_api";
 import { io } from 'socket.io-client';
+import { user_data_store } from "./UserDataState";
 
 class ShoppingCartState {
     loaded = false;
@@ -282,37 +282,40 @@ class ShoppingCartState {
             dishes: dishes_array,
             products: products_array,
             customs: this._custom_array,
-            outlet_id: this._outlet
+            outlet_id: this._outlet,
+            account_id: (user_data_store._user_id != -1 ? user_data_store._user_id : null)
         };
         this._ordered = true;
         console.log(order_object);
-        this.socket = io('http://localhost:3000');
-        this.socket.emit('new_order_inserted', order_object);
-        this.socket.on('new_order_state', (order_status) => {
-            this._isstarted = order_status.isstarted;
-            this._iscooked = order_status.iscooked;
-            this._isfinished = order_status.isfinished;
-            if (this._isfinished) {
-                alert("Приятного аппетита!");
-                this.loaded = false;
-                this._name = "";
-                this._surname = "";
-                this._phone_number = "";
-                this._delivery = false;
-                this._town = "";
-                this._delivery_address = "";
-                this._outlet = -1;
-                this._dish_array = new Map();
-                this._product_array = new Map();
-                this._custom_array.clear();
-                this._price = 0;
-                this._ordered = false;
-                this._isstarted = false;
-                this._iscooked = false;
-                this._isfinished = false;
-                sessionStorage.clear();
-            }
-        });
+        if (this.socket === undefined) {
+            this.socket = io('/', {path: '/socket'});
+            this.socket.emit('new_order_inserted', order_object);
+            this.socket.on('new_order_state', (order_status) => {
+                this._isstarted = order_status.isstarted;
+                this._iscooked = order_status.iscooked;
+                this._isfinished = order_status.isfinished;
+                if (this._isfinished) {
+                    alert("Приятного аппетита!");
+                    this.loaded = false;
+                    this._name = "";
+                    this._surname = "";
+                    this._phone_number = "";
+                    this._delivery = false;
+                    this._town = "";
+                    this._delivery_address = "";
+                    this._outlet = -1;
+                    this._dish_array = new Map();
+                    this._product_array = new Map();
+                    this._custom_array.clear();
+                    this._price = 0;
+                    this._ordered = false;
+                    this._isstarted = false;
+                    this._iscooked = false;
+                    this._isfinished = false;
+                    sessionStorage.clear();
+                }
+            });
+        }
         /*await instance.post('/save_order_to_store', {order_id: Date.now().toString(), order_data: order_object}).then((response) => {
             runInAction(() => {
                 this.current_order_id = response.data.order_id;

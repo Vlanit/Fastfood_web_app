@@ -35,15 +35,14 @@ const ShoppingCart = observer((props) => {
     };
 
     const payWithCoins = async () => {
-        shopping_cart_store.makeOrder();
-        /*if (user_data_store.coins >= shopping_cart_store.price) {
+        if (user_data_store.coins >= shopping_cart_store.price) {
             user_data_store.coins -= shopping_cart_store.price;
             await instance.post('/reduce_coins_for_account', {new_coins: user_data_store.coins, account_id: user_data_store.user_id}).
             then(shopping_cart_store.makeOrder());
         }
         else {
             alert('У вас недостаточно монет лояльности!');
-        }*/
+        }
     };
 
     const getStateName = () => {
@@ -187,8 +186,8 @@ const ShoppingCart = observer((props) => {
                             <input disabled="" type="hidden" name="price" value={shopping_cart_store.price}/>
                             <input disabled="" type="hidden" name="customerNumber" value={`(${shopping_cart_store.surname} ${shopping_cart_store.name})`}/>
                             <input disabled="" type="hidden" name="shopId" value={"1078773"}/>
-                            <input disabled="" type="hidden" name="shopSuccessURL" value={"http://localhost:3001/success"} />
-                            <input disabled="" type="hidden" name="shopFailURL" value={"http://localhost:3001/error"}/>
+                            <input disabled="" type="hidden" name="shopSuccessURL" value={`${window.location.host}/success`} />
+                            <input disabled="" type="hidden" name="shopFailURL" value={`${window.location.host}/error`}/>
                             <Button text={"Перейти к оплате"} main_style={button} hover_style={button_hover}/>
                         </form>
                     </div>

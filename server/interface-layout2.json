@@ -143,363 +143,369 @@
     "clients_options": {
       "display": "flex",
       "justifyContent": "space-between",
-      "width": "130px"
-    },
-
-    "nav_button": {
-      "display": "flex",
-      "width": "40px",
-      "height": "40px",
-      "borderRadius": "50%",
-      "justify-content": "center",
-      "alignItems": "center"
-    },
-
-    "exit_button": {
-      "position": "absolute",
-      "top": "10px",
-      "right": "10px",
-      "width": "30px",
-      "height": "30px",
-      "borderRadius": "50%"
-    },
-
-    "footer": {
-      "display": "flex",
-      "paddingTop": "45px"
-    },
-    
-    "footer_img": {
-      "width": "137px",
-      "height": "137px",
-      "margin": "45px 80px"
-    },
-    
-    "footer_nav": {
-      "display": "flex",
-      "gap": "150px",
-      "marginBottom": "45px"
-    },
-    
-    "footer_nav_items": {
-      "display": "flex",
+      "width": "fit-content",
       "alignItems": "center",
-      "justifyContent": "space-between",
-      "width": "692px"
-    },
-    
-    "social_media": {
-      "display": "flex",
-      "alignItems": "center",
-      "justifyContent": "space-between",
-      "gap": "71px"
-    },
-    
-    "contact_info": {
-      "width": "439px",
-      "display": "flex",
-      "justifyContent": "space-between"
-    },
-    
-    "credentials": {
-      "width": "1086px",
-      "display": "flex",
-      "justifyContent": "space-between"
-    },
-
-    "action_card": {
-      "width": "389px",
-      "borderRadius": "10px",
-      "display": "flex",
-      "flexDirection": "column",
-      "alignItems": "center",
-      "paddingBottom": "10px",
-      "overflow": "hidden"
-    },
-    
-    "big_action_card": {
-      "width": "1201px",
-      "borderRadius": "10px",
-      "display": "flex",
-      "alignItems": "center",
-      "justifyContent": "space-between",
-      "overflow": "hidden"
-    },
-    
-    "big_action_card_img": {
-      "height": "363px",
-      "width": "627px"
-    },
-    
-    "big_action_card_h2": {
-      "fontSize": "24px"
-    },
-    
-    "big_action_card_div": {
-      "width": "580px",
-      "padding": "0 30px"
-    },
-
-    "info_card": {
-      "display": "flex",
-      "alignItems": "center",
-      "justifyContent": "space-between",
-      "gap": "30px",
-      "borderRadius": "10px",
-      "overflow": "hidden"
-    },
-
-    "info_card_text": {
-      "display": "flex",
-      "flexDirection": "column",
-      "padding":"0 30px",
-      "gap": "10px"
-    },
-
-    "info_card_table": {
-      "display": "grid",
-      "gridTemplateColumns": "repeat(3, 250px)",
-      "alignContent": "start",
-      "marginRight": "100px",
       "gap": "30px"
     },
 
-    "contact_card_table": {
-      "display": "grid",
-      "gridTemplateColumns": "200px 400px",
-      "alignContent": "start",
-      "marginLeft": "70px",
-      "gap": "20px"
-    },
+      "nav_button": {
+        "display": "flex",
+        "width": "40px",
+        "height": "40px",
+        "borderRadius": "50%",
+        "justify-content": "center",
+        "alignItems": "center"
+      },
 
-    "outlet_address": {
-      "display": "flex",
-      "gap": "20px",
-      "margin": "auto"
-    },
-    
-    "action_card_list": {
-      "display": "flex",
-      "justifyContent": "center",
-      "alignItems": "center",
-      "gap": "17px"
-    },
-    
-    "action_card_list_down": {
-      "display": "flex",
-      "flexDirection": "column",
-      "alignItems": "center",
-      "gap": "17px"
-    },
-    
-    "dish_card_list": {
-      "display": "grid",
-      "gap": "24px 24px",
-      "justifyContent": "center",
-      "alignItems": "start"
-    },
+      "exit_button": {
+        "position": "absolute",
+        "top": "10px",
+        "right": "10px",
+        "width": "30px",
+        "height": "30px",
+        "borderRadius": "50%"
+      },
 
-    "card_grid_two": {
-      "gridTemplateColumns": "repeat(2, 305px)"
-    },
-    
-    "card_grid_three": {
-      "gridTemplateColumns": "repeat(3, 305px)"
-    },
-    
-    "card_grid_four": {
-      "gridTemplateColumns": "repeat(4, 305px)"
-    },
-    
-    "dish_card": {
-      "width": "285px",
-      "height": "fit-content",
-      "borderRadius": "10px",
-      "display": "flex",
-      "flexDirection": "column",
-      "padding": "10px",
-      "overflow": "hidden",
-      "position": "relative",
-      "textAlign": "center"
-    },
-    
-    "dish_card_mini": {
-      "width": "220px",
-      "height": "fit-content",
-      "borderRadius": "7px",
-      "display": "flex",
-      "flexDirection": "column",
-      "padding": "7px",
-      "gap": 0,
-      "overflow": "hidden",
-      "position": "relative",
-      "textAlign": "center"
-    },
-    
-    "dish_card_mini_h3": {
-      "fontSize": "14px"
-    },
-    
-    "dish_card_mini_button": {
-      "fontSize": "14px"
-    },
-    
-    "dish_card_mini_p": {
-      "fontSize": "12px"
-    },
-    
-    "discount": {
-      "fontFamily":"Open Sans",
-      "color": "white",
-      "fontWeight": "bold",
-      "position":"absolute",
-      "top": "20px",
-      "right": "0",
-      "borderTopLeftRadius": "10px",
-      "borderBottomLeftRadius": "10px",
-      "padding": "0px 40px"
-    },
-    
-    "description": {
-      "textAlign": "left",
-      "paddingTop": "10px",
-      "paddingBottom": "10px"
-    },
+      "footer": {
+        "display": "flex",
+        "paddingTop": "45px"
+      },
+      
+      "footer_img": {
+        "width": "137px",
+        "height": "137px",
+        "margin": "45px 80px"
+      },
+      
+      "footer_nav": {
+        "display": "flex",
+        "gap": "150px",
+        "marginBottom": "45px"
+      },
+      
+      "footer_nav_items": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between",
+        "width": "692px"
+      },
+      
+      "social_media": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between",
+        "gap": "71px"
+      },
+      
+      "contact_info": {
+        "width": "439px",
+        "display": "flex",
+        "justifyContent": "space-between"
+      },
+      
+      "credentials": {
+        "width": "1086px",
+        "display": "flex",
+        "justifyContent": "space-between"
+      },
 
-    "form_panel": {
-      "display": "flex",
-      "flexDirection": "row-reverse",
-      "gap": "70px"
-    },
-    
-    "sidebar": {
-      "display": "flex",
-      "flexDirection": "column",
-      "gap": "40px",
-      "paddingLeft": "70px"
-    },
-    
-    "flex_between": {
-      "display": "flex",
-      "alignItems": "center",
-      "justifyContent": "space-between"
-    },
+      "action_card": {
+        "width": "389px",
+        "borderRadius": "10px",
+        "display": "flex",
+        "flexDirection": "column",
+        "alignItems": "center",
+        "paddingBottom": "10px",
+        "overflow": "hidden"
+      },
+      
+      "big_action_card": {
+        "width": "1201px",
+        "borderRadius": "10px",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between",
+        "overflow": "hidden"
+      },
+      
+      "big_action_card_img": {
+        "height": "363px",
+        "width": "627px"
+      },
+      
+      "big_action_card_h2": {
+        "fontSize": "24px"
+      },
+      
+      "big_action_card_div": {
+        "width": "580px",
+        "padding": "0 30px"
+      },
 
-    "flex_between_start": {
-      "display": "flex",
-      "alignItems": "start",
-      "justifyContent": "space-between"
-    },
-    
-    "dish_constructor_card": {
-      "display": "block",
-      "textAlign": "center",
-      "padding": "10px 20px",
-      "paddingBottom": "30px",
-      "margin": "0px 76px",
-      "fontSize": "24px"
-    },
+      "info_card": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between",
+        "gap": "30px",
+        "borderRadius": "10px",
+        "overflow": "hidden"
+      },
 
-    "change_num": {
-      "borderRadius": "7px",
-      "width": "fit-content",
-      "height": "29px",
-      "padding": "0 20px",
-      "gap": "20px"
-    },
+      "info_card_text": {
+        "display": "flex",
+        "flexDirection": "column",
+        "padding":"0 30px",
+        "gap": "10px"
+      },
 
-    "modal_window": {
-      "position": "fixed",
-      "borderRadius": "10px",
-      "top": "50%",
-      "left": "50%",
-      "transform": "translate(-50%, -50%)",
-      "display": "flex",
-      "justifyContent": "space-between",
-      "overflow": "hidden",
-      "textAlign": "center"
-    },
-    
-    "shopping_cart": {
-      "width": "1210px",
-      "height": "500px"
-    },
-    
-    "cart_items": {
-      "width": "810px"
-    },
-    
-    "cart_items_div": {
-      "overflow": "scroll",
-      "height": "460px"
-    },
-    
-    "cart_items_table": {
-      "display": "grid",
-      "gridTemplateColumns": "repeat(3, 230px)",
-      "alignContent": "start",
-      "marginLeft": "20px",
-      "gap": "10px"
-    },
-    
-    "order_form": {
-      "width": "400px",
-      "display": "flex",
-      "flexDirection": "column",
-      "padding": "20px"
-    },
-    
-    "order_form_table": {
-      "display": "grid",
-      "gridTemplateColumns": "150px 200px",
-      "textAlign": "left",
-      "gap": "20px"
-    },
-    
-    "dish_info_card": {
-      "width": "910px",
-      "height": "400px"
-    },
-    
-    "dish_part": {
-      "width": "400px",
-      "display": "flex",
-      "flexDirection": "column",
-      "textAlign": "center",
-      "gap": "20px",
-      "padding": "20px"
-    },
-    
-    "description_part": {
-      "position": "relative",
-      "width": "510px",
-      "padding": "50px 40px"
-    },
-    
-    "description_part_table": {
-      "display": "grid",
-      "gridTemplateColumns": "180px 290px",
-      "textAlign": "left",
-      "rowGap": "10px",
-      "columnGap": "20px",
-      "marginBottom":"60px"
-    },
-    
-    "login": {
-      "display": "flex",
-      "flexDirection": "column",
-      "padding": "40px 40px",
-      "gap": "20px"
-    },
-    
-    "order_card": {
-      "borderRadius": "10px",
-      "padding": "10px",
-      "margin": "5px"
-    },
-    
-    "order_contents": {
-      "width":"50%",
-      "minHeight":"920px"
-    }
+      "info_card_table": {
+        "display": "grid",
+        "gridTemplateColumns": "repeat(3, 250px)",
+        "alignContent": "start",
+        "marginRight": "100px",
+        "gap": "30px"
+      },
+
+      "contact_card_table": {
+        "display": "grid",
+        "gridTemplateColumns": "200px 400px",
+        "alignContent": "start",
+        "marginLeft": "70px",
+        "gap": "20px"
+      },
+
+      "outlet_address": {
+        "display": "flex",
+        "gap": "20px",
+        "margin": "auto"
+      },
+      
+      "action_card_list": {
+        "display": "flex",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "gap": "17px"
+      },
+      
+      "action_card_list_down": {
+        "display": "flex",
+        "flexDirection": "column",
+        "alignItems": "center",
+        "gap": "17px"
+      },
+      
+      "dish_card_list": {
+        "display": "grid",
+        "gap": "24px 24px",
+        "justifyContent": "center",
+        "alignItems": "start"
+      },
+
+      "card_grid_two": {
+        "gridTemplateColumns": "repeat(2, 305px)"
+      },
+      
+      "card_grid_three": {
+        "gridTemplateColumns": "repeat(3, 305px)"
+      },
+      
+      "card_grid_four": {
+        "gridTemplateColumns": "repeat(4, 305px)"
+      },
+
+      "card_grid_four_for_toppings": {
+        "gridTemplateColumns": "repeat(3, 96px)"
+      },
+      
+      "dish_card": {
+        "width": "285px",
+        "height": "fit-content",
+        "borderRadius": "10px",
+        "display": "flex",
+        "flexDirection": "column",
+        "padding": "10px",
+        "overflow": "hidden",
+        "position": "relative",
+        "textAlign": "center"
+      },
+      
+      "dish_card_mini": {
+        "width": "220px",
+        "height": "fit-content",
+        "borderRadius": "7px",
+        "display": "flex",
+        "flexDirection": "column",
+        "padding": "7px",
+        "gap": 0,
+        "overflow": "hidden",
+        "position": "relative",
+        "textAlign": "center"
+      },
+      
+      "dish_card_mini_h3": {
+        "fontSize": "14px"
+      },
+      
+      "dish_card_mini_button": {
+        "fontSize": "14px"
+      },
+      
+      "dish_card_mini_p": {
+        "fontSize": "12px"
+      },
+      
+      "discount": {
+        "fontFamily":"Open Sans",
+        "color": "white",
+        "fontWeight": "bold",
+        "position":"absolute",
+        "top": "20px",
+        "right": "0",
+        "borderTopLeftRadius": "10px",
+        "borderBottomLeftRadius": "10px",
+        "padding": "0px 40px"
+      },
+      
+      "description": {
+        "textAlign": "left",
+        "paddingTop": "10px",
+        "paddingBottom": "10px"
+      },
+
+      "form_panel": {
+        "display": "flex",
+        "flexDirection": "row-reverse",
+        "gap": "70px"
+      },
+      
+      "sidebar": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "40px",
+        "paddingLeft": "70px"
+      },
+      
+      "flex_between": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between"
+      },
+
+      "flex_between_start": {
+        "display": "flex",
+        "alignItems": "start",
+        "justifyContent": "space-between"
+      },
+      
+      "dish_constructor_card": {
+        "display": "block",
+        "textAlign": "center",
+        "padding": "10px 20px",
+        "paddingBottom": "30px",
+        "margin": "0px 76px",
+        "fontSize": "24px"
+      },
+
+      "change_num": {
+        "borderRadius": "7px",
+        "width": "fit-content",
+        "height": "29px",
+        "padding": "0 20px",
+        "gap": "20px"
+      },
+
+      "modal_window": {
+        "position": "fixed",
+        "borderRadius": "10px",
+        "top": "50%",
+        "left": "50%",
+        "transform": "translate(-50%, -50%)",
+        "display": "flex",
+        "justifyContent": "space-between",
+        "overflow": "hidden",
+        "textAlign": "center"
+      },
+      
+      "shopping_cart": {
+        "width": "1210px",
+        "height": "500px"
+      },
+      
+      "cart_items": {
+        "width": "810px"
+      },
+      
+      "cart_items_div": {
+        "overflow": "scroll",
+        "height": "460px"
+      },
+      
+      "cart_items_table": {
+        "display": "grid",
+        "gridTemplateColumns": "repeat(3, 230px)",
+        "alignContent": "start",
+        "marginLeft": "20px",
+        "gap": "10px"
+      },
+      
+      "order_form": {
+        "width": "400px",
+        "display": "flex",
+        "flexDirection": "column",
+        "padding": "20px"
+      },
+      
+      "order_form_table": {
+        "display": "grid",
+        "gridTemplateColumns": "150px 200px",
+        "textAlign": "left",
+        "gap": "20px"
+      },
+      
+      "dish_info_card": {
+        "width": "910px",
+        "height": "400px"
+      },
+      
+      "dish_part": {
+        "width": "400px",
+        "display": "flex",
+        "flexDirection": "column",
+        "textAlign": "center",
+        "gap": "20px",
+        "padding": "20px"
+      },
+      
+      "description_part": {
+        "position": "relative",
+        "width": "510px",
+        "padding": "50px 40px"
+      },
+      
+      "description_part_table": {
+        "display": "grid",
+        "gridTemplateColumns": "180px 290px",
+        "textAlign": "left",
+        "rowGap": "10px",
+        "columnGap": "20px",
+        "marginBottom":"60px"
+      },
+      
+      "login": {
+        "display": "flex",
+        "flexDirection": "column",
+        "padding": "40px 40px",
+        "gap": "20px"
+      },
+      
+      "order_card": {
+        "borderRadius": "10px",
+        "padding": "10px",
+        "margin": "5px"
+      },
+      
+      "order_contents": {
+        "width":"50%",
+        "minHeight":"920px"
+      }
 }
