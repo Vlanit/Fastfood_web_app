@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { shopping_cart_store } from '../../state/ShoppingCartState.js';
 
 import { interface_styles, interface_colors } from '../../styles/ColorData.js';
@@ -10,6 +11,8 @@ function DishProductWindow(props) {
     const size_array = ['Малая (25 см)', 'Средняя (30 см)', 'Большая (35 см)'];
     const [count, setCount] = useState(1);
     const [size, setSize] = useState(2);
+
+    let navigate = useNavigate(); 
 
     const handleSizeChange = (event) => {
         const { value } = event.target;
@@ -33,7 +36,7 @@ function DishProductWindow(props) {
 
     const buttonStyle = {...interface_styles.button, color: interface_colors.button_text_color, backgroundColor: interface_colors.button_color};
     const buttonHoverStyle = {...interface_styles.button, color: interface_colors.button_text_color_hover, backgroundColor: interface_colors.button_color_hover};
-
+    
     return (
         <div style={{...interface_styles.dish_info_card, ...interface_styles.modal_window, backgroundColor: interface_colors.card_background_color}}>
             <div style={interface_styles.dish_part}>
@@ -62,9 +65,13 @@ function DishProductWindow(props) {
                         type="number" name="count" defaultValue={count} min={1} max={6} onChange={handleCountChange}/>
                 </div>
                 <div style={interface_styles.flex_between}>
-                    <Button text={"В конструктор"} main_style={{...buttonStyle, ...interface_styles.small}}
-                        hover_style={{...buttonHoverStyle, ...interface_styles.small}}/>
-                    <p style={{...interface_styles.p, ...interface_styles.bold}}>{`Цена: ${props.price} ₽`}</p>
+                    {props.dish ? 
+                        <Button text={"В конструктор"} main_style={{...buttonStyle, ...interface_styles.small}}
+                            hover_style={{...buttonHoverStyle, ...interface_styles.small}}
+                            onClick={() => {props.get_toppings_action(props.id); props.exit_action(); navigate(props.navigate)}}/> 
+                        :null}
+                    <p style={{...interface_styles.p, ...interface_styles.bold}}>{`Цена: ${props.price} ₽`}
+                    </p>
                     <Button text={"В корзину"} main_style={{...buttonStyle, ...interface_styles.small}}
                         hover_style={{...buttonHoverStyle, ...interface_styles.small}}
                         onClick={() => {AddDishProductToShoppingCart(); props.exit_action()}}/>

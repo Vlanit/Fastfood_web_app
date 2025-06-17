@@ -1,6 +1,6 @@
 import instance from '../../api/server_api';
-import { useState } from 'react';
-import { interface_styles, button, button_hover } from '../../styles/ColorData';
+import { useState, useEffect } from 'react';
+import { interface_styles, interface_colors, button, button_hover } from '../../styles/ColorData';
 import Button from "./Button";
 
 function WorkerDeleteTab(props) {

@@ -29,13 +29,13 @@ const App = observer((props) => {
   const [is_page_darkened, setDark] = useState(false);
   const [is_info_card_open, setInfoCard] = useState(false);
   const [info_card_data, setInfo] = useState({id: -1, name: '', image_path: '', description: '', price: 0, dish: false, product: false});
+  const [toppings_array, setToppings] = useState([]);
   const [is_shopping_cart_open, setShoppingCart] = useState(false);
   const [is_order_history_open, setOrderHistory] = useState(false);
   const [is_login_open, setLogin] = useState(false);
   const [is_register_open, setRegister] = useState(false);
 
   document.body.style.margin = 0;
-  const current_width = window.innerWidth;
 
   useEffect(() => {
     shopping_cart_store.getDataFromSessionStorage();
@@ -47,8 +47,13 @@ const App = observer((props) => {
     });
   }, []);
 
+  const getDishToppingsByID = (id) => {
+    console.log(main_page_store.dishes[id].toppings);
+    setToppings(main_page_store.dishes[id].toppings);
+  }
+
   return (
-    <div style={{...interface_styles.body, backgroundColor: interface_colors.background_color, color: interface_colors.text_color, width: current_width}}>
+    <div style={{...interface_styles.body, backgroundColor: interface_colors.background_color, color: interface_colors.text_color, width: "1528px"}}>
       <div style={is_page_darkened?interface_styles.darkened:null}>
         <Header></Header>
         <NavPanel shopping={setShoppingCart} history={setOrderHistory} login={setLogin} darken={setDark}></NavPanel>
@@ -56,7 +61,7 @@ const App = observer((props) => {
           <Route path='/' element={<MainPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/actions' element={<ActionPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
           <Route path='/menu' element={<MenuPage info={setInfoCard} darken={setDark} card_action={setInfo}/>}></Route>
-          <Route path='/constructor' element={<ConstructorPage/>}></Route>
+          <Route path='/constructor' element={<ConstructorPage toppings={toppings_array}/>}></Route>
           <Route path='/success' element={<PaymentSuccess/>}></Route>
           <Route path='/error' element={<Navigate replace to="/"/>}></Route>
           {user_data_store.cashier ? 
@@ -74,6 +79,8 @@ const App = observer((props) => {
           image_path={info_card_data.image_path} description={info_card_data.description} price={info_card_data.price}
           dish={info_card_data.dish} product={info_card_data.product}
           real_id={info_card_data.dish ? main_page_store.dishes[info_card_data.id].dish_id : main_page_store.products[info_card_data.id].product_id}
+          get_toppings_action={getDishToppingsByID}
+          navigate={'/constructor'}
           exit_action={() => {setInfoCard(false); setDark(false);}}/>
         :null}
       {is_shopping_cart_open?

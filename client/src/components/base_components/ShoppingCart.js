@@ -30,10 +30,6 @@ const ShoppingCart = observer((props) => {
         });
     }
 
-    const insertOrder = async () => {
-        shopping_cart_store.makeOrder();
-    };
-
     const payWithCoins = async () => {
         if (user_data_store.coins >= shopping_cart_store.price) {
             user_data_store.coins -= shopping_cart_store.price;
@@ -188,7 +184,10 @@ const ShoppingCart = observer((props) => {
                             <input disabled="" type="hidden" name="shopId" value={"1078773"}/>
                             <input disabled="" type="hidden" name="shopSuccessURL" value={`${window.location.host}/success`} />
                             <input disabled="" type="hidden" name="shopFailURL" value={`${window.location.host}/error`}/>
-                            <Button text={"Перейти к оплате"} main_style={button} hover_style={button_hover}/>
+                            {(shopping_cart_store._name.length > 0 && shopping_cart_store._surname.length > 0) ?
+                                <Button text={"Перейти к оплате"} main_style={button} hover_style={button_hover}/> :
+                                <Button text={"Перейти к оплате"} main_style={{display: "none"}} hover_style={{display: "none"}}/>
+                                }
                         </form>
                     </div>
                     }

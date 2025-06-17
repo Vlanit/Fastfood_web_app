@@ -17,13 +17,31 @@ const ConstructorPage = observer((props) => {
 
     useEffect(() => {
         let new_array = Array(main_page_store.toppings.length).fill(false);
+        let local_price = 200;
+
+        if (props.toppings !== undefined) {
+            props.toppings.forEach(id => {
+                new_array[main_page_store.get_topping_array_index(id)] = true;
+                local_price += main_page_store.toppings[main_page_store.get_topping_array_index(id)].price;
+            });
+        }
+
         changeToppings(new_array);
+        changePrice(local_price);
     }, [main_page_store.toppings]);
 
-    const inverseToppingState = (index) => {
+    const setToppingStateTrue = (index) => {
         changeToppings(array => [
             ...array.slice(0, index),
-            !array[index],
+            true,
+            ...array.slice(index + 1, array.length),
+        ]);
+    };
+
+    const setToppingStateFalse = (index) => {
+        changeToppings(array => [
+            ...array.slice(0, index),
+            false,
             ...array.slice(index + 1, array.length),
         ]);
     };
@@ -85,7 +103,7 @@ const ConstructorPage = observer((props) => {
                         <label style={interface_styles.p}>Количество: </label>
                         <input onChange={(event) => setCount(event.target.value)} 
                             style={{...interface_styles.input, borderColor: interface_colors.input_border_color}} 
-                            type="number" name="count" defaultValue={0} min={1} max={6}/>
+                            type="number" name="count" defaultValue={1} min={1} max={6}/>
                     </div>
                     <div style={{width: "589px", height: "589px", marginTop: "20px"}}>
                         <img style={{position: "absolute", width: "589px", height: "589px"}} src='/api/images/1745709455789image.png'/>
@@ -124,8 +142,8 @@ const ConstructorPage = observer((props) => {
                                 {
                                     if (item.type == topping_type)
                                         return <Topping added={used_toppings[index]} image_path={item.image_path} name={item.name} price={item.price} 
-                                            plusAction={() => {inverseToppingState(index); addPrice(item.price)}} 
-                                            minusAction={() => {inverseToppingState(index); reducePrice(item.price)}}/>
+                                            plusAction={() => {setToppingStateTrue(index); addPrice(item.price)}} 
+                                            minusAction={() => {setToppingStateFalse(index); reducePrice(item.price)}}/>
                                     else
                                         return null;
                                 }):

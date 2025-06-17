@@ -24,11 +24,17 @@ const Footer = observer((props) => {
                     </div>
                     <div style={interface_styles.social_media}>
                         <LinkImage image_name={"VK.svg"} main_style={interface_styles.nav_button} 
-                    hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}/>
+                    hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
+                    onClick={() => {}}
+                    href='https://vk.com/pizzasicilia?utm_source=yd&utm_medium=cpc&utm_content=astat%3A54858469388%7Cret%3A54858469388%7Ckor%3A0%7Cdsa%3A54858469388%7Ccid%3A700218426%7Cgid%3A5584919105%7Caid%3A17033958527%7Cpt%3Apremium%7Cpos%3A1%7Cst%3Asearch%7Csrc%3Anone%7Cdvc%3Adesktop%7Creg%3A971%7Cadp%3Ano%7Capt%3Anone%7Clink%3Amain&utm_term=%D0%BF%D0%B8%D1%86%D1%86%D0%B5%D1%80%D0%B8%D1%8F&utm_campaign=ps-n_yd_taganrog_s_dostavka'/>
                         <LinkImage image_name={"Telegram.svg"} main_style={interface_styles.nav_button} 
-                    hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}/>
+                    hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
+                    onClick={() => {}}
+                    href='https://t.me/siciliapizza?utm_source=yd&utm_medium=cpc&utm_content=astat:54858469388|ret:54858469388|kor:0|dsa:54858469388|cid:700218426|gid:5584919105|aid:17033958527|pt:premium|pos:1|st:search|src:none|dvc:desktop|reg:971|adp:no|apt:none|link:main&utm_term=%D0%BF%D0%B8%D1%86%D1%86%D0%B5%D1%80%D0%B8%D1%8F&utm_campaign=ps-n_yd_taganrog_s_dostavka'/>
                         <LinkImage image_name={"Zen.svg"} main_style={interface_styles.nav_button} 
-                    hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}/>
+                    hover_style={{...interface_styles.nav_button, backgroundColor: interface_colors.a_color_hover}}
+                    onClick={() => {}}
+                    href='https://dzen.ru/?ysclid=mbermb4a46881042829'/>
                     </div>
                 </div>
                 <h3 style={interface_styles.h3}>Офис: улица Энгельса, 1, Таганрог, Ростовская область</h3>

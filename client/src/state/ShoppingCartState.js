@@ -11,7 +11,7 @@ class ShoppingCartState {
     _delivery = false;
     _town = "";
     _delivery_address = "";
-    _outlet = -1;
+    _outlet = 1;
     _dish_array = new Map();
     _product_array = new Map();
     _custom_array = [];
@@ -249,73 +249,78 @@ class ShoppingCartState {
     }
 
     makeOrder() {
-        const dishes_keys_array = Array.from(this._dish_array.keys());
-        const dishes_array = dishes_keys_array.map(item => {
-            const current = this._dish_array.get(item);
-            return {
-                id: item,
-                dish_id: current.dish_id, 
-                size: current.size, 
-                count: current.count,
-                price: current.price
-            };
-        });
-        const products_keys_array = Array.from(this._product_array.keys());
-        const products_array = products_keys_array.map(item => {
-            const current = this._product_array.get(item);
-            return {
-                id: item,
-                product_id: current.product_id, 
-                count: current.count
-            };
-        });
+        if (this._name.length > 0 && this._surname.length > 0)
+            if (this._delivery && this._delivery_address.length > 0 || this._delivery) {
+                const dishes_keys_array = Array.from(this._dish_array.keys());
+                const dishes_array = dishes_keys_array.map(item => {
+                    const current = this._dish_array.get(item);
+                    return {
+                        id: item,
+                        dish_id: current.dish_id, 
+                        size: current.size, 
+                        count: current.count,
+                        price: current.price
+                    };
+                });
+                const products_keys_array = Array.from(this._product_array.keys());
+                const products_array = products_keys_array.map(item => {
+                    const current = this._product_array.get(item);
+                    return {
+                        id: item,
+                        product_id: current.product_id, 
+                        count: current.count
+                    };
+                });
 
-        const order_object = {
-            name: this._name,
-            surname: this._surname,
-            delivery: this._delivery,
-            delivery_address: this._delivery_address,
-            isstarted: false,
-            iscooked: false,
-            isfinished: false,
-            order_datetime: new Date(),
-            dishes: dishes_array,
-            products: products_array,
-            customs: this._custom_array,
-            outlet_id: this._outlet,
-            account_id: (user_data_store._user_id != -1 ? user_data_store._user_id : null)
-        };
-        this._ordered = true;
-        console.log(order_object);
-        if (this.socket === undefined) {
-            this.socket = io('/', {path: '/socket'});
-            this.socket.emit('new_order_inserted', order_object);
-            this.socket.on('new_order_state', (order_status) => {
-                this._isstarted = order_status.isstarted;
-                this._iscooked = order_status.iscooked;
-                this._isfinished = order_status.isfinished;
-                if (this._isfinished) {
-                    alert("Приятного аппетита!");
-                    this.loaded = false;
-                    this._name = "";
-                    this._surname = "";
-                    this._phone_number = "";
-                    this._delivery = false;
-                    this._town = "";
-                    this._delivery_address = "";
-                    this._outlet = -1;
-                    this._dish_array = new Map();
-                    this._product_array = new Map();
-                    this._custom_array.clear();
-                    this._price = 0;
-                    this._ordered = false;
-                    this._isstarted = false;
-                    this._iscooked = false;
-                    this._isfinished = false;
-                    sessionStorage.clear();
+                const order_object = {
+                    name: this._name,
+                    surname: this._surname,
+                    delivery: this._delivery,
+                    delivery_address: this._delivery_address,
+                    isstarted: false,
+                    iscooked: false,
+                    isfinished: false,
+                    order_datetime: new Date(),
+                    dishes: dishes_array,
+                    products: products_array,
+                    customs: this._custom_array,
+                    outlet_id: this._outlet,
+                    account_id: (user_data_store._user_id != -1 ? user_data_store._user_id : null)
+                };
+                this._ordered = true;
+                console.log(order_object);
+                if (this.socket === undefined) {
+                    this.socket = io('/', {path: '/socket'});
+                    this.socket.emit('new_order_inserted', order_object);
+                    this.socket.on('new_order_state', (order_status) => {
+                        this._isstarted = order_status.isstarted;
+                        this._iscooked = order_status.iscooked;
+                        this._isfinished = order_status.isfinished;
+                        if (this._isfinished) {
+                            alert("Приятного аппетита!");
+                            this.loaded = false;
+                            this._name = "";
+                            this._surname = "";
+                            this._phone_number = "";
+                            this._delivery = false;
+                            this._town = "";
+                            this._delivery_address = "";
+                            this._outlet = -1;
+                            this._dish_array = new Map();
+                            this._product_array = new Map();
+                            this._custom_array.clear();
+                            this._price = 0;
+                            this._ordered = false;
+                            this._isstarted = false;
+                            this._iscooked = false;
+                            this._isfinished = false;
+                            sessionStorage.clear();
+                        }
+                    });
                 }
-            });
-        }
+                return;
+            }
+        alert("Не хватает важной информации о заказчике!");
         /*await instance.post('/save_order_to_store', {order_id: Date.now().toString(), order_data: order_object}).then((response) => {
             runInAction(() => {
                 this.current_order_id = response.data.order_id;

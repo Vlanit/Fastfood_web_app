@@ -16,6 +16,7 @@ import ActionDeleteTab from "../base_components/ActionDeleteTab";
 import DishDeleteTab from "../base_components/DishDeleteTab";
 import ToppingDeleteTab from "../base_components/ToppingDeleteTab";
 import ProductDeleteTab from "../base_components/ProductDeleteTab";
+import WorkerDeleteTab from "../base_components/WorkerDeleteTab"
 
 function TabManager(props) {
     switch(props.tab){
@@ -30,7 +31,7 @@ function TabManager(props) {
         case 2:
             return <CashierRegisterTab/>;
         case 2.1:
-            return <CashierRegisterTab/>;
+            return <WorkerDeleteTab/>;
         case 3:
             return <ToppingInsertTab/>;
         case 3.1:
@@ -57,25 +58,13 @@ function TabManager(props) {
 function AdminPanel(props) {
     const [current_tab, setTab] = useState(1);
 
-    const TabHelper = () => {
-        if (current_tab == 1.2) {
-            setTab(1.3);
-        }
-        if (current_tab == 2) {
-            setTab(2.1);
-        }
-        if (current_tab > 3 && current_tab <= 3.4) {
-            setTab(current_tab + 0.4);
-        }
-    };
-
     return (
         <div style={interface_styles.section}>
             <div style={interface_styles.flex_between_start}>
                 <div style={interface_styles.sidebar}>
                     <Link contence={"Бизнес"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
                         hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(1)}/>
-                        {current_tab >= 3 && current_tab < 4 ? <div style={interface_styles.sidebar}>
+                        {current_tab >= 1 && current_tab < 2 ? <div style={interface_styles.sidebar}>
                         <Link contence={"О нас"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
                             hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(1.1)}/>
                         <Link contence={"Заведения"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
@@ -98,13 +87,57 @@ function AdminPanel(props) {
                     <Link contence={"Интерфейс"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
                         hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(4)}/>
                 </div>
-                {
-                    current_tab > 1.1 && current_tab < 4 ?
+                {current_tab >= 1.2 && current_tab <= 1.3 ?
                         <div style={interface_styles.sidebar}>
                             <Link contence={"Добавить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
-                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => TabHelper()}/>
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(1.2)}/>
                             <Link contence={"Удалить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
-                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => TabHelper()}/>
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(1.3)}/>
+                        </div>
+                    :null
+                }
+                {current_tab == 2 || current_tab == 2.1 ?
+                        <div style={interface_styles.sidebar}>
+                            <Link contence={"Добавить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(2)}/>
+                            <Link contence={"Удалить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(2.1)}/>
+                        </div>
+                    :null
+                }
+                {current_tab == 3.1 || current_tab == 3.5 ?
+                        <div style={interface_styles.sidebar}>
+                            <Link contence={"Добавить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.1)}/>
+                            <Link contence={"Удалить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.5)}/>
+                        </div>
+                    :null
+                }
+                {current_tab == 3.2 || current_tab == 3.6 ?
+                        <div style={interface_styles.sidebar}>
+                            <Link contence={"Добавить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.2)}/>
+                            <Link contence={"Удалить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.6)}/>
+                        </div>
+                    :null
+                }
+                {current_tab == 3.3 || current_tab == 3.7 ?
+                        <div style={interface_styles.sidebar}>
+                            <Link contence={"Добавить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.3)}/>
+                            <Link contence={"Удалить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.7)}/>
+                        </div>
+                    :null
+                }
+                {current_tab == 3.4 || current_tab == 3.8 ?
+                        <div style={interface_styles.sidebar}>
+                            <Link contence={"Добавить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.4)}/>
+                            <Link contence={"Удалить"} main_style={{...interface_styles.a, color: interface_colors.a_color}} 
+                                hover_style={{...interface_styles.a, color: interface_colors.a_color_hover}} onClick={(event) => setTab(3.8)}/>
                         </div>
                     :null
                 }

@@ -102,36 +102,36 @@ class UserDataState {
         try {
             let data = (await instance.get(`/login?login=${form_data.get('login')}&password=${form_data.get('password')}`)).data;
             runInAction(() => {
-                if (data.error) {
-                    this.error = data.error;
-                }
-                else if (data.admin) {
-                    this._admin = true;
-                    this.authorised = true;
-                }
-                else {
-                    this._name = data.user_data.name;
-                    this._surname = data.user_data.surname;
-                    if (data.cashier && this.socket === undefined) {
-                        this._cashier = data.cashier;
-                        this._outlet = data.user_data.outlet_id;
-                        this.socket = io('/', {path: '/socket'});
-                        this.socket.on('new_order', (order_data) => {
-                            runInAction(() => {
-                                this._orders.push(order_data);
-                                console.log(order_data);
-                            });
-                        })
-                        this.socket.emit('join_room', this._outlet);
+                this.error = data.error;
+                if (!data.error) {
+                    if (data.admin) {
+                        this._admin = true;
+                        this.authorised = true;
                     }
                     else {
-                        this._user_id = data.user_data.account_id;
-                        this._town = data.user_data.town;
-                        this._address = data.user_data.address;
-                        this._coins = data.user_data.coins;
-                        this._orders = data.orders;
+                        this._name = data.user_data.name;
+                        this._surname = data.user_data.surname;
+                        if (data.cashier && this.socket === undefined) {
+                            this._cashier = data.cashier;
+                            this._outlet = data.user_data.outlet_id;
+                            this.socket = io('/', {path: '/socket'});
+                            this.socket.on('new_order', (order_data) => {
+                                runInAction(() => {
+                                    this._orders.push(order_data);
+                                    console.log(order_data);
+                                });
+                            })
+                            this.socket.emit('join_room', this._outlet);
+                        }
+                        else {
+                            this._user_id = data.user_data.account_id;
+                            this._town = data.user_data.town;
+                            this._address = data.user_data.address;
+                            this._coins = data.user_data.coins;
+                            this._orders = data.orders;
+                        }
+                        this.authorised = true;
                     }
-                    this.authorised = true;
                 }
             });
         }
